@@ -1,4 +1,16 @@
 const User = require('./user')
+const Artist = require('./artist')
+const Song = require('./song')
+const FavoriteArtist = require('./favoriteArtist')
+const FavoriteSong = require('./favoriteSong')
+
+User.belongsToMany(Artist, {through: FavoriteArtist})
+Artist.belongsToMany(User, {through: FavoriteArtist})
+Artist.belongsToMany(User, {through: FavoriteArtist, as: 'user2'})
+User.belongsToMany(Song, {through: FavoriteSong})
+Song.belongsToMany(User, {through: FavoriteSong})
+Song.belongsToMany(User, {through: FavoriteSong, as: 'user2'})
+User.belongsToMany(User, {through: 'AuthorizedMatches', as: 'Matches'})
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -14,5 +26,9 @@ const User = require('./user')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+  User,
+  Artist,
+  Song,
+  FavoriteArtist,
+  FavoriteSong
 }

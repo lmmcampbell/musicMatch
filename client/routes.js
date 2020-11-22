@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {
+  SpotifyLogIn,
+  Home,
+  TopArtists,
+  TopSongs,
+  Matches,
+  MatchDataPage
+} from './components'
 import {me} from './store'
 
 /**
@@ -19,16 +25,24 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/home" component={Home} />
+        <Route path="/artists" component={TopArtists} />
+        <Route path="/songs" component={TopSongs} />
+        <Route exact path="/matches" component={Matches} />
+        <Route exact path="/matches/:id" component={MatchDataPage} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            {/* <Route path="/home" component={UserHome} /> */}
+            <Route path="/home" component={Home} />
+            <Route path="/artists" component={TopArtists} />
+            <Route path="/songs" component={TopSongs} />
+            <Route exact path="/matches" component={Matches} />
+            <Route exact path="/matches/:id" component={MatchDataPage} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={SpotifyLogIn} />
       </Switch>
     )
   }
@@ -56,11 +70,3 @@ const mapDispatch = dispatch => {
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
-
-/**
- * PROP TYPES
- */
-Routes.propTypes = {
-  loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}

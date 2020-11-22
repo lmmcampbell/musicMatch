@@ -1,0 +1,20 @@
+{
+  country: 'US',
+  display_name: 'Laura Campbell',
+  email: 'lmmcampbell@gmail.com',
+  explicit_content: { filter_enabled: false, filter_locked: false },
+  external_urls: { spotify: 'https://open.spotify.com/user/campbe34' },
+  followers: { href: null, total: 12 },
+  href: 'https://api.spotify.com/v1/users/campbe34',
+  id: 'campbe34',
+  images: [
+    {
+      height: null,
+      url: 'https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-1/p320x320/81718042_10112553629477713_3023349787438088192_o.jpg?_nc_cat=106&ccb=2&_nc_sid=0c64ff&_nc_ohc=PpcMi8lvN1UAX9mZeNF&_nc_ht=scontent-ort2-2.xx&tp=6&oh=f20379c0641167bac0329f5fc59a01ba&oe=5FDE421A',
+      width: null
+    }
+  ],
+  product: 'premium',
+  type: 'user',
+  uri: 'spotify:user:campbe34'
+}

@@ -1,14 +1,28 @@
+/* eslint-disable camelcase */
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
+const axios = require('axios')
+const request = require('request')
+const cors = require('cors')
+const SpotifyWebApi = require('spotify-web-api-node')
+const querystring = require('querystring')
+const cookieParser = require('cookie-parser')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
+const {
+  User,
+  Artist,
+  Song,
+  FavoriteArtist,
+  FavoriteSong
+} = require('./db/models')
 const socketio = require('socket.io')
 module.exports = app
 
@@ -18,15 +32,25 @@ if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
+
+// spotify items
+const client_id = '0be36334572a44b2900205bb22aaf4a8'
+const client_secret = process.env.CLIENT_SECRET
+const redirect_uri = `${process.env.DOMAIN}/callback`
+
+var generateRandomString = function(length) {
+  var text = ''
+  var possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+  for (var i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
+  return text
+}
+
+var stateKey = 'spotify_auth_state'
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
@@ -47,6 +71,8 @@ const createApp = () => {
   // body parsing middleware
   app.use(express.json())
   app.use(express.urlencoded({extended: true}))
+  app.use(cors())
+  app.use(cookieParser())
 
   // compression middleware
   app.use(compression())
@@ -62,6 +88,177 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+
+  //login route
+
+  app.get('/login', function(req, res) {
+    var state = generateRandomString(16)
+    res.cookie(stateKey, state)
+
+    // your application requests authorization
+    var scope = 'user-read-private user-read-email user-top-read'
+    res.redirect(
+      'https://accounts.spotify.com/authorize?' +
+        querystring.stringify({
+          response_type: 'code',
+          client_id: client_id,
+          scope: scope,
+          redirect_uri: redirect_uri,
+          state: state
+        })
+    )
+  })
+
+  app.get('/callback', function(req, res) {
+    // your application requests refresh and access tokens
+    // after checking the state parameter
+
+    var code = req.query.code || null
+    var state = req.query.state || null
+    var storedState = req.cookies ? req.cookies[stateKey] : null
+
+    if (state === null || state !== storedState) {
+      res.redirect(
+        '/#' +
+          querystring.stringify({
+            error: 'state_mismatch'
+          })
+      )
+    } else {
+      res.clearCookie(stateKey)
+      var authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+          code: code,
+          redirect_uri: redirect_uri,
+          grant_type: 'authorization_code'
+        },
+        headers: {
+          Authorization:
+            'Basic ' +
+            new Buffer(client_id + ':' + client_secret).toString('base64')
+        },
+        json: true
+      }
+
+      request.post(authOptions, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          var access_token = body.access_token,
+            refresh_token = body.refresh_token
+
+          // pass the token to the browser to make requests from there
+          // redirects to front end with these as hash state; re-loads page and has the token on the hash state (so front end grabs params and I should store in my store)
+          res.redirect(
+            '/home/#' +
+              querystring.stringify({
+                access_token: access_token,
+                refresh_token: refresh_token
+              })
+          )
+        } else {
+          res.redirect(
+            '/#' +
+              querystring.stringify({
+                error: 'invalid_token'
+              })
+          )
+        }
+      })
+    }
+  })
+
+  app.post('/spotify/me', async (req, res, next) => {
+    try {
+      // GET CURRENT USER AND STORE IN DATABASE
+      var access_token = req.headers.access_token
+      const {data: userData} = await axios.get(
+        'https://api.spotify.com/v1/me',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+
+      const [currentUser] = await User.findOrCreate({
+        where: {
+          spotifyId: userData.id,
+          email: userData.email
+        }
+      })
+      await currentUser.update({
+        email: userData.email,
+        display_name: userData.display_name,
+        href: userData.href,
+        images: userData.images.map(i => i.url)
+      })
+
+      // GET LONG TERM TOP ARTISTS AND STORE IN DATA BASE
+      const {data: artistData} = await axios.get(
+        'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+
+      let artistArray = artistData.items
+      for (let i = 0; i < artistArray.length; i++) {
+        let artist = artistArray[i]
+        const [currentArtist] = await Artist.findOrCreate({
+          where: {
+            name: artist.name
+          }
+        })
+        await currentArtist.update({
+          genres: artist.genres,
+          spotifyId: artist.id,
+          popularity: artist.popularity,
+          images: userData.images.map(image => image.url)
+        })
+        const [currentArtistMatch] = await FavoriteArtist.findOrCreate({
+          where: {
+            artistId: currentArtist.id,
+            userId: currentUser.id,
+            timeRange: 'long_term'
+          }
+        })
+      }
+
+      // GET LONG-TERM TOP TRACKS AND STORE IN DATABASE
+      const {data: trackData} = await axios.get(
+        'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+
+      let trackArray = trackData.items
+      for (let i = 0; i < trackArray.length; i++) {
+        let track = trackArray[i]
+        const [currentSong] = await Song.findOrCreate({
+          where: {
+            name: track.name
+          }
+        })
+        await currentSong.update({
+          artists: track.artists[0].name,
+          spotifyId: track.id,
+          album: track.album.name,
+          popularity: track.popularity
+        })
+        const [currentSongMatch] = await FavoriteSong.findOrCreate({
+          where: {
+            songId: currentSong.id,
+            userId: currentUser.id,
+            timeRange: 'long_term'
+          }
+        })
+      }
+
+      // LOGIN CURRENT USER AND RETURN
+      req.login(currentUser, err => (err ? next(err) : res.json(currentUser)))
+    } catch (err) {
+      next(err)
+    }
+  })
 
   // auth and api routes
   app.use('/auth', require('./auth'))
