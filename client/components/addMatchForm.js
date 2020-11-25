@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addMatch} from '../store/matches'
 import {Form} from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
 // import NewProductConfirmation from './NewProductConfirmation'
 
 class addMatchForm extends React.Component {
@@ -31,9 +32,9 @@ class addMatchForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="add-match-form">
         <Form onSubmit={this.handleSubmit} className="matchForm">
-          <h4>Approve a Match:</h4>
+          <h4>Request a Match:</h4>
           <Form.Group controlId="formMatchName">
             <Form.Control
               type="text"
@@ -43,7 +44,9 @@ class addMatchForm extends React.Component {
               placeholder="Match's Spotify ID"
             />
           </Form.Group>
-          <button type="submit">Add Match</button>
+          <Button type="submit" variant="outline-info" id="add-button">
+            Add Match
+          </Button>
         </Form>
       </div>
     )

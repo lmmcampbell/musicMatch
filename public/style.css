@@ -81,7 +81,7 @@ form div {
 }
 
 .top-list {
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
   margin-left: 200px;
   margin-right: 200px;
@@ -89,4 +89,28 @@ form div {
 
 .italics {
   font-style: italic;
+}
+
+#add-match-form {
+  margin: 100px;
+}
+
+#match-table {
+  background: white;
+  width: 80%;
+}
+
+#add-button {
+  background: white;
+}
+
+#table-box {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  color: white;
+  margin: 30px;
+  text-align: center;
 }

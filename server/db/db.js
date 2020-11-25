@@ -16,3 +16,12 @@ module.exports = db
 if (process.env.NODE_ENV === 'test') {
   after('close database connection', () => db.close())
 }
+
+// app.get('whatever', (req, res, next) => {
+//   const userDB = new Sequelize(
+//     process.env.DATABASE_URL || `${req.body.host}/${req.body.databaseName}`,
+//     {
+//       logging: false
+//     }
+//   )
+// })

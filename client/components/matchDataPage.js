@@ -19,29 +19,47 @@ export class MatchDataPage extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <div>LOANDING</div>
+    }
     const matchSongs = this.props.matchSongs
     const matchArtists = this.props.matchArtists
-    if (this.state.isLoading) {
-      return (
-        <div>
-          <ListGroup className="top-list">
-            <div>
-              {matchSongs && matchSongs.length ? (
-                matchSongs.map(song => {
-                  return (
-                    <ListGroup.Item key={song.id}>{song.name}</ListGroup.Item>
-                  )
-                })
-              ) : (
-                <div>No shared artists!</div>
-              )}
-            </div>
-          </ListGroup>
-        </div>
-      )
-    }
-
-    return <div className="match-page">HELLO!</div>
+    console.log('ZEBRA', matchSongs)
+    return (
+      <div style={{marginBottom: '10px'}}>
+        <ListGroup className="top-list">
+          <h3 className="title">Shared Songs</h3>
+          <div>
+            {matchSongs && matchSongs.length ? (
+              matchSongs.map(song => {
+                return (
+                  <ListGroup.Item key={song.id}>
+                    <span className="italics">{song.name} </span>by{' '}
+                    {song.artists}
+                  </ListGroup.Item>
+                )
+              })
+            ) : (
+              <div>No shared songs!</div>
+            )}
+          </div>
+        </ListGroup>
+        <ListGroup className="top-list">
+          <h3 className="title">Shared Artists</h3>
+          <div>
+            {matchArtists && matchArtists.length ? (
+              matchArtists.map(artist => {
+                return (
+                  <ListGroup.Item key={artist.id}>{artist.name}</ListGroup.Item>
+                )
+              })
+            ) : (
+              <div>No shared artists!</div>
+            )}
+          </div>
+        </ListGroup>
+      </div>
+    )
   }
 }
 

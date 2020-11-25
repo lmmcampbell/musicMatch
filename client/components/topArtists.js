@@ -24,6 +24,7 @@ export class TopArtists extends React.Component {
     let artists = this.props.topArtists
     return (
       <ListGroup className="top-list">
+        <h2 className="title">Top Artists</h2>
         <div>
           {artists && artists.length ? (
             artists.map(artist => {
