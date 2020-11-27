@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable camelcase */
 const path = require('path')
 const express = require('express')
@@ -167,6 +168,7 @@ const createApp = () => {
     }
   })
 
+  // eslint-disable-next-line max-statements
   app.post('/spotify/me', async (req, res, next) => {
     try {
       // GET CURRENT USER AND STORE IN DATABASE
@@ -222,6 +224,79 @@ const createApp = () => {
         })
       }
 
+      // GET MEDIUM TERM TOP ARTISTS AND STORE IN DATA BASE
+      const {data: artistDataMediumTerm} = await axios.get(
+        'https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+      console.log(artistDataMediumTerm)
+      let artistArrayMediumTerm = artistDataMediumTerm.items
+      for (let i = 0; i < artistArrayMediumTerm.length; i++) {
+        let artist = artistArrayMediumTerm[i]
+        const [currentArtist] = await Artist.findOrCreate({
+          where: {
+            name: artist.name
+          }
+        })
+        await currentArtist.update({
+          genres: artist.genres,
+          spotifyId: artist.id,
+          popularity: artist.popularity,
+          images: userData.images.map(image => image.url)
+        })
+        const [currentArtistMatch, created] = await FavoriteArtist.findOrCreate(
+          {
+            where: {
+              artistId: currentArtist.id,
+              userId: currentUser.id
+            }
+          }
+        )
+        if (created) {
+          await currentArtistMatch.update({
+            timeRange: 'medium_term'
+          })
+        }
+      }
+
+      // GET SHORT TERM TOP ARTISTS AND STORE IN DATA BASE
+      const {data: artistDataShortTerm} = await axios.get(
+        'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+      let artistArrayShortTerm = artistDataShortTerm.items
+      for (let i = 0; i < artistArrayShortTerm.length; i++) {
+        let artist = artistArrayShortTerm[i]
+        const [currentArtist] = await Artist.findOrCreate({
+          where: {
+            name: artist.name
+          }
+        })
+        await currentArtist.update({
+          genres: artist.genres,
+          spotifyId: artist.id,
+          popularity: artist.popularity,
+          images: userData.images.map(image => image.url)
+        })
+        const [currentArtistMatch, created] = await FavoriteArtist.findOrCreate(
+          {
+            where: {
+              artistId: currentArtist.id,
+              userId: currentUser.id
+            }
+          }
+        )
+        if (created) {
+          await currentArtistMatch.update({
+            timeRange: 'short_term'
+          })
+        }
+      }
+
       // GET LONG-TERM TOP TRACKS AND STORE IN DATABASE
       const {data: trackData} = await axios.get(
         'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50&offset=0',
@@ -251,6 +326,76 @@ const createApp = () => {
             timeRange: 'long_term'
           }
         })
+      }
+
+      // GET MEDIUM-TERM TOP TRACKS AND STORE IN DATABASE
+      const {data: trackDataMediumTerm} = await axios.get(
+        'https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+
+      let trackArrayMediumTerm = trackDataMediumTerm.items
+      for (let i = 0; i < trackArrayMediumTerm.length; i++) {
+        let track = trackArrayMediumTerm[i]
+        const [currentSong] = await Song.findOrCreate({
+          where: {
+            name: track.name
+          }
+        })
+        await currentSong.update({
+          artists: track.artists[0].name,
+          spotifyId: track.id,
+          album: track.album.name,
+          popularity: track.popularity
+        })
+        const [currentSongMatch, created] = await FavoriteSong.findOrCreate({
+          where: {
+            songId: currentSong.id,
+            userId: currentUser.id
+          }
+        })
+        if (created) {
+          await currentSongMatch.update({
+            timeRange: 'medium_term'
+          })
+        }
+      }
+
+      // GET SHORT-TERM TOP TRACKS AND STORE IN DATABASE
+      const {data: trackDataShortTerm} = await axios.get(
+        'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50&offset=0',
+        {
+          headers: {Authorization: 'Bearer ' + access_token}
+        }
+      )
+
+      let trackArrayShortTerm = trackDataShortTerm.items
+      for (let i = 0; i < trackArrayShortTerm.length; i++) {
+        let track = trackArrayShortTerm[i]
+        const [currentSong] = await Song.findOrCreate({
+          where: {
+            name: track.name
+          }
+        })
+        await currentSong.update({
+          artists: track.artists[0].name,
+          spotifyId: track.id,
+          album: track.album.name,
+          popularity: track.popularity
+        })
+        const [currentSongMatch, created] = await FavoriteSong.findOrCreate({
+          where: {
+            songId: currentSong.id,
+            userId: currentUser.id
+          }
+        })
+        if (created) {
+          await currentSongMatch.update({
+            timeRange: 'short_term'
+          })
+        }
       }
 
       // LOGIN CURRENT USER AND RETURN

@@ -42,6 +42,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route path="/" component={SpotifyLogIn} />
         <Route component={SpotifyLogIn} />
       </Switch>
     )

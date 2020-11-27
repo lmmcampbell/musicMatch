@@ -33,7 +33,7 @@ export class MatchDataPage extends React.Component {
             {matchSongs && matchSongs.length ? (
               matchSongs.map(song => {
                 return (
-                  <ListGroup.Item key={song.id}>
+                  <ListGroup.Item key={song.id} id={song.spotifyId}>
                     <span className="italics">{song.name} </span>by{' '}
                     {song.artists}
                   </ListGroup.Item>
@@ -50,7 +50,9 @@ export class MatchDataPage extends React.Component {
             {matchArtists && matchArtists.length ? (
               matchArtists.map(artist => {
                 return (
-                  <ListGroup.Item key={artist.id}>{artist.name}</ListGroup.Item>
+                  <ListGroup.Item key={artist.id} id={artist.spotifyId}>
+                    {artist.name}
+                  </ListGroup.Item>
                 )
               })
             ) : (

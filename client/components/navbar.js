@@ -15,8 +15,9 @@ const NavbarComponent = ({handleClick, isLoggedIn}) => (
           width="30"
           height="30"
           className="d-inline-block align-top"
-        />{' '}
-        SPOTIFY MATCH
+        />
+        {'  '}
+        MUSIC MATCH
       </Navbar.Brand>
       {isLoggedIn && (
         <>

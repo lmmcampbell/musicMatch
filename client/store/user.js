@@ -1,11 +1,11 @@
 import axios from 'axios'
-//import history from '../history'
+import history from '../history'
 
 /**
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
+export const REMOVE_USER = 'REMOVE_USER'
 
 /**
  * INITIAL STATE
@@ -37,11 +37,9 @@ export const me = () => async dispatch => {
 export const fetchSpotifyUser = token => {
   return async dispatch => {
     try {
-      console.log('TOKEN', token)
       const {data} = await axios.post('/spotify/me', null, {
         headers: {access_token: token}
       })
-      console.log(data)
       dispatch(getUser(data))
     } catch (error) {
       console.error(error)
@@ -53,7 +51,8 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
-    history.push('/login')
+    history.push('/')
+    // window.location.href = '/'
   } catch (err) {
     console.error(err)
   }
