@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchMatches} from '../store/matches'
+import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import AddMatchForm from './addMatchForm'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
@@ -11,6 +11,12 @@ export class Matches extends React.Component {
     this.state = {
       isLoading: true
     }
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick(id) {
+    this.props.fetchDeleteMatch(id)
+    this.props.fetchMatches()
   }
 
   componentDidMount() {
@@ -57,7 +63,8 @@ export class Matches extends React.Component {
                         <Button
                           id="deleteMatchButton"
                           variant="outline-info"
-                          className="deleteMatchButton"
+                          className="matchButton"
+                          onClick={() => this.handleClick(match.id)}
                         >
                           Deactivate Match
                         </Button>
@@ -83,7 +90,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchMatches: () => dispatch(fetchMatches())
+  fetchMatches: () => dispatch(fetchMatches()),
+  fetchDeleteMatch: id => dispatch(fetchDeleteMatch(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Matches)

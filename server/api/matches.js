@@ -7,12 +7,31 @@ router.get('/', async (req, res, next) => {
   try {
     const currentUser = req.user
     const matches = await currentUser.getMatches()
+    // // console.log(matches)
+    // // let reciprocalMatches = matches.filter( async (match) => {
+    // //   let matchesOfMatch = await match.getMatches()
+    // // })
+    // const reciprocalMatches = await User.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       as: 'Matches',
+    //       where: {
+    //         MatchId: req.user.id,
+    //         userId: someOtherId,
+    //       },
+    //       required: true
+    //     }
+    //   ]
+    // });
+    // console.log("ZEBRA", reciprocalMatches)
     res.json(matches)
   } catch (err) {
     next(err)
   }
 })
 
+// POST /api/matches
 router.post('/', async (req, res, next) => {
   try {
     const currentUser = req.user
@@ -30,6 +49,23 @@ router.post('/', async (req, res, next) => {
       matchEntry = await currentUser.addMatch(match)
     }
     res.json(matchEntry)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// delete
+router.delete('/:id', async (req, res, next) => {
+  try {
+    // const matchId = req.params.id
+    const currentUser = req.user
+    const match = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    await currentUser.removeMatch(match)
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }

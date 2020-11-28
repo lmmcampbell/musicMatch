@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addMatch} from '../store/matches'
+import {fetchMatches, addMatch} from '../store/matches'
 import {Form} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 // import NewProductConfirmation from './NewProductConfirmation'
@@ -28,6 +28,7 @@ class addMatchForm extends React.Component {
     this.setState({
       matchName: ''
     })
+    this.props.fetchMatches()
   }
 
   render() {
@@ -55,6 +56,7 @@ class addMatchForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchMatches: () => dispatch(fetchMatches()),
     addMatch: product => dispatch(addMatch(product))
   }
 }

@@ -1,9 +1,8 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import {setToken} from '../store/token'
 import {fetchSpotifyUser} from '../store/user'
 import {connect} from 'react-redux'
+import Spinner from 'react-bootstrap/Spinner'
 
 class Home extends React.Component {
   constructor(props) {
@@ -37,7 +36,6 @@ class Home extends React.Component {
       this.props.setToken(tokenObj)
       this.props.fetchSpotifyUser(params.access_token)
     }
-
     this.setState({isLoading: false})
   }
 
@@ -45,9 +43,18 @@ class Home extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING!</div>
     }
+
     return (
       <div className="home-page">
         <h1>Welcome back to Spotify Match!</h1>
+        {!this.props.user.id && (
+          <div>
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading spinner</span>
+            </Spinner>
+            <div>Loading Spotify data...</div>
+          </div>
+        )}
       </div>
     )
   }

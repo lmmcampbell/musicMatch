@@ -2,7 +2,6 @@ import axios from 'axios'
 
 // ACTION TYPES
 const GET_MATCHES = 'GET_MATCHES'
-// const UPDATE_MATCHES = 'UPDATE_MATCHES'
 
 // INITIAL STATE
 const initialState = []
@@ -12,13 +11,6 @@ const getMatches = matches => ({
   type: GET_MATCHES,
   matches
 })
-
-// export const updateMatches = match => {
-//   return {
-//     type: UPDATE_MATCHES,
-//     match
-//   }
-// }
 
 // THUNKS
 export const fetchMatches = () => {
@@ -33,11 +25,22 @@ export const fetchMatches = () => {
 }
 
 export const addMatch = match => {
-  return async () => {
+  return async dispatch => {
     try {
       console.log('ZEBRA', match)
-      const {data} = await axios.post('/api/matches/', match)
-      // dispatch(updateMatches(data))
+      await axios.post('/api/matches/', match)
+      dispatch(fetchMatches())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchDeleteMatch = id => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/matches/${id}`)
+      dispatch(fetchMatches())
     } catch (error) {
       console.error(error)
     }
