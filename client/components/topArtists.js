@@ -20,7 +20,6 @@ export class TopArtists extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    console.log(this.props.topArtists)
     let artists = this.props.topArtists
     return (
       <ListGroup className="top-list">

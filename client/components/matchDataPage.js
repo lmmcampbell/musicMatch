@@ -24,7 +24,6 @@ export class MatchDataPage extends React.Component {
     }
     const matchSongs = this.props.matchSongs
     const matchArtists = this.props.matchArtists
-    console.log('ZEBRA', matchSongs)
     return (
       <div style={{marginBottom: '10px'}}>
         <ListGroup className="top-list">

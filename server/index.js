@@ -231,7 +231,6 @@ const createApp = () => {
           headers: {Authorization: 'Bearer ' + access_token}
         }
       )
-      console.log(artistDataMediumTerm)
       let artistArrayMediumTerm = artistDataMediumTerm.items
       for (let i = 0; i < artistArrayMediumTerm.length; i++) {
         let artist = artistArrayMediumTerm[i]

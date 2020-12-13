@@ -17,7 +17,6 @@ export const fetchMatchArtists = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/matches/${id}/artists`)
-      console.log(data)
       dispatch(getMatchArtists(data))
     } catch (error) {
       console.error(error)

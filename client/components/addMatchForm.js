@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {fetchMatches, addMatch} from '../store/matches'
 import {Form} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
-// import NewProductConfirmation from './NewProductConfirmation'
 
 class addMatchForm extends React.Component {
   constructor(props) {

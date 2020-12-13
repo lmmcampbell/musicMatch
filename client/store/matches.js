@@ -4,7 +4,7 @@ import axios from 'axios'
 const GET_MATCHES = 'GET_MATCHES'
 
 // INITIAL STATE
-const initialState = []
+const initialState = {}
 
 // ACTION CREATORS
 const getMatches = matches => ({
@@ -27,8 +27,19 @@ export const fetchMatches = () => {
 export const addMatch = match => {
   return async dispatch => {
     try {
-      console.log('ZEBRA', match)
       await axios.post('/api/matches/', match)
+      dispatch(fetchMatches())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchApproveMatch = id => {
+  return async dispatch => {
+    try {
+      let update = {approved: true}
+      await axios.put(`/api/matches/${id}`, update)
       dispatch(fetchMatches())
     } catch (error) {
       console.error(error)

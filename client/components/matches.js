@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import AddMatchForm from './addMatchForm'
+import MatchApproval from './matchApproval'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 
@@ -28,7 +29,8 @@ export class Matches extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let matches = this.props.matches
+    let myMatches = this.props.matches.myMatches
+    let matchedMe = this.props.matches.matchedMe
 
     return (
       <div className="match-page">
@@ -43,41 +45,74 @@ export class Matches extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {matches && matches.length ? (
-                matches.map(match => {
-                  return (
-                    <tr key={match.id}>
-                      <td>{match.spotifyId}</td>
-                      <td>
-                        <Button
-                          id="matchSongsButton"
-                          variant="outline-info"
-                          className="matchButton"
-                          as="a"
-                          href={`/matches/${match.id}`}
-                        >
-                          View Match
-                        </Button>
-                      </td>
-                      <td>
-                        <Button
-                          id="deleteMatchButton"
-                          variant="outline-info"
-                          className="matchButton"
-                          onClick={() => this.handleClick(match.id)}
-                        >
-                          Deactivate Match
-                        </Button>
-                      </td>
-                    </tr>
-                  )
-                })
-              ) : (
-                <tr>No matches yet!</tr>
-              )}
+              {myMatches &&
+                myMatches.length &&
+                myMatches
+                  .filter(match => match.match.approved === true)
+                  .map(match => {
+                    return (
+                      <tr key={match.id}>
+                        <td>{match.spotifyId}</td>
+                        <td>
+                          <Button
+                            id="matchSongsButton"
+                            variant="outline-info"
+                            className="matchButton"
+                            as="a"
+                            href={`/matches/${match.id}`}
+                          >
+                            View Match
+                          </Button>
+                        </td>
+                        <td>
+                          <Button
+                            id="deleteMatchButton"
+                            variant="outline-info"
+                            className="matchButton"
+                            onClick={() => this.handleClick(match.id)}
+                          >
+                            Deactivate Match
+                          </Button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+              {matchedMe &&
+                matchedMe.length > 0 &&
+                matchedMe
+                  .filter(match => match.matchedUser[0].match.approved === true)
+                  .map(match => {
+                    return (
+                      <tr key={match.id}>
+                        <td>{match.spotifyId}</td>
+                        <td>
+                          <Button
+                            id="matchSongsButton"
+                            variant="outline-info"
+                            className="matchButton"
+                            as="a"
+                            href={`/matches/${match.id}`}
+                          >
+                            View Match
+                          </Button>
+                        </td>
+                        <td>
+                          <Button
+                            id="deleteMatchButton"
+                            variant="outline-info"
+                            className="matchButton"
+                            onClick={() => this.handleClick(match.id)}
+                          >
+                            Deactivate Match
+                          </Button>
+                        </td>
+                      </tr>
+                    )
+                  })}
             </tbody>
           </Table>
         </div>
+        <MatchApproval />
         <AddMatchForm />
       </div>
     )

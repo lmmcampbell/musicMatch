@@ -17,7 +17,6 @@ export const fetchTopSongs = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
-      console.log(data)
       dispatch(getTopSongs(data))
     } catch (error) {
       console.error(error)
