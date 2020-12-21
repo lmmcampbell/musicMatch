@@ -9,6 +9,13 @@ router.get('/', async (req, res, next) => {
 
     const myMatches = await currentUser.getMatchedUser()
 
+    const myMatchesApproved = myMatches.filter(
+      match => match.match.approved === true
+    )
+    const myMatchesUnapproved = myMatches.filter(
+      match => match.match.approved === false
+    )
+
     const matchedMe = await User.findAll({
       include: {
         model: User,
@@ -19,9 +26,20 @@ router.get('/', async (req, res, next) => {
       }
     })
 
+    const matchedMeApproved = matchedMe.filter(
+      match => match.matchedUser[0].match.approved === true
+    )
+    const matchedMeUnapproved = matchedMe.filter(
+      match => match.matchedUser[0].match.approved === false
+    )
+
+    const approvedMatches = [...myMatchesApproved, ...matchedMeApproved]
+
     const matchData = {
-      myMatches: myMatches,
-      matchedMe: matchedMe
+      approvedMatches: approvedMatches,
+      matchedMeUnapproved: matchedMeUnapproved,
+      myMatchesUnapproved: myMatchesUnapproved,
+      numberMatches: approvedMatches.length
     }
 
     res.json(matchData)

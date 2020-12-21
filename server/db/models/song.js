@@ -14,6 +14,9 @@ const Song = db.define('song', {
   album: {
     type: Sequelize.STRING
   },
+  images: {
+    type: Sequelize.ARRAY(Sequelize.TEXT)
+  },
   popularity: {
     type: Sequelize.INTEGER
   }

@@ -9,6 +9,9 @@ import {tokenObj} from './token'
 import {matches} from './matches'
 import {matchSongs} from './matchSongs'
 import {matchArtists} from './matchArtists'
+import {artistHighlight} from './artistHighlight'
+import {songHighlight} from './songHighlight'
+import {matchHighlight} from './matchHighlight'
 import history from './history'
 
 const reducer = combineReducers({
@@ -19,7 +22,10 @@ const reducer = combineReducers({
   history: history,
   matches: matches,
   matchSongs: matchSongs,
-  matchArtists: matchArtists
+  matchArtists: matchArtists,
+  artistHighlight: artistHighlight,
+  songHighlight: songHighlight,
+  matchHighlight: matchHighlight
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

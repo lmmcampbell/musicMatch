@@ -3,6 +3,7 @@ import {setToken} from '../store/token'
 import {fetchSpotifyUser} from '../store/user'
 import {connect} from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
+import {UserHome} from './index'
 
 class Home extends React.Component {
   constructor(props) {
@@ -41,20 +42,34 @@ class Home extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return <div>LOADING!</div>
+      return (
+        <div className="home-page">
+          <div>LOADING!</div>
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading spinner</span>
+          </Spinner>
+        </div>
+      )
     }
 
     return (
       <div className="home-page">
-        <h1>Welcome back to Spotify Match!</h1>
         {!this.props.user.id && (
           <div>
-            <Spinner animation="border" role="status">
+            <h1>Welcome back to Spotify Match!</h1>
+            {/* <Spinner animation="border" role="status">
               <span className="sr-only">Loading spinner</span>
-            </Spinner>
+            </Spinner> */}
+            <div className="music-notes">
+              <div className="note-1">♫</div>
+              <div className="note-2">&#9833;</div>
+              <div className="note-3">&#9834;</div>
+              <div className="note-4">&#9833;</div>
+            </div>
             <div>Loading Spotify data...</div>
           </div>
         )}
+        {this.props.user.id && <UserHome />}
       </div>
     )
   }

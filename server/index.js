@@ -213,7 +213,7 @@ const createApp = () => {
           genres: artist.genres,
           spotifyId: artist.id,
           popularity: artist.popularity,
-          images: userData.images.map(image => image.url)
+          images: artist.images.map(image => image.url)
         })
         const [currentArtistMatch] = await FavoriteArtist.findOrCreate({
           where: {
@@ -243,7 +243,7 @@ const createApp = () => {
           genres: artist.genres,
           spotifyId: artist.id,
           popularity: artist.popularity,
-          images: userData.images.map(image => image.url)
+          images: artist.images.map(image => image.url)
         })
         const [currentArtistMatch, created] = await FavoriteArtist.findOrCreate(
           {
@@ -279,7 +279,7 @@ const createApp = () => {
           genres: artist.genres,
           spotifyId: artist.id,
           popularity: artist.popularity,
-          images: userData.images.map(image => image.url)
+          images: artist.images.map(image => image.url)
         })
         const [currentArtistMatch, created] = await FavoriteArtist.findOrCreate(
           {
@@ -316,6 +316,7 @@ const createApp = () => {
           artists: track.artists[0].name,
           spotifyId: track.id,
           album: track.album.name,
+          images: track.album.images.map(image => image.url),
           popularity: track.popularity
         })
         const [currentSongMatch] = await FavoriteSong.findOrCreate({
@@ -347,6 +348,7 @@ const createApp = () => {
           artists: track.artists[0].name,
           spotifyId: track.id,
           album: track.album.name,
+          images: track.album.images.map(image => image.url),
           popularity: track.popularity
         })
         const [currentSongMatch, created] = await FavoriteSong.findOrCreate({
@@ -382,6 +384,7 @@ const createApp = () => {
           artists: track.artists[0].name,
           spotifyId: track.id,
           album: track.album.name,
+          images: track.album.images.map(image => image.url),
           popularity: track.popularity
         })
         const [currentSongMatch, created] = await FavoriteSong.findOrCreate({

@@ -23,7 +23,7 @@ export class TopSongs extends React.Component {
     let songs = this.props.topSongs
     return (
       <ListGroup className="top-list">
-        <h2 className="title">Top Songs</h2>
+        <h2 className="title">Your Top Songs</h2>
         <div>
           {songs && songs.length ? (
             songs.map(song => {

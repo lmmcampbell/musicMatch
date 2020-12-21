@@ -27,7 +27,7 @@ export class MatchApproval extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let matchedMe = this.props.matches.matchedMe
+    let matchedMeUnapproved = this.props.matches.matchedMeUnapproved
     return (
       <div className="match-approval">
         <h2 className="title">Match Requests</h2>
@@ -40,28 +40,24 @@ export class MatchApproval extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {matchedMe && matchedMe.length ? (
-                matchedMe
-                  .filter(
-                    match => match.matchedUser[0].match.approved === false
+              {matchedMeUnapproved && matchedMeUnapproved.length > 0 ? (
+                matchedMeUnapproved.map(match => {
+                  return (
+                    <tr key={match.id}>
+                      <td>{match.spotifyId}</td>
+                      <td>
+                        <Button
+                          id="approveMatchButton"
+                          variant="outline-info"
+                          className="matchButton"
+                          onClick={() => this.handleClick(match.id)}
+                        >
+                          Approve
+                        </Button>
+                      </td>
+                    </tr>
                   )
-                  .map(match => {
-                    return (
-                      <tr key={match.id}>
-                        <td>{match.spotifyId}</td>
-                        <td>
-                          <Button
-                            id="approveMatchButton"
-                            variant="outline-info"
-                            className="matchButton"
-                            onClick={() => this.handleClick(match.id)}
-                          >
-                            Approve
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })
+                })
               ) : (
                 <tr>No match requests waiting for approval!</tr>
               )}

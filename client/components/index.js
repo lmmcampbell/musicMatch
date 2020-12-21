@@ -5,6 +5,7 @@
  */
 export {default as NavbarComponent} from './navbar'
 export {default as Home} from './home'
+export {default as UserHome} from './userHome'
 export {default as SpotifyLogIn} from './spotify-log-in'
 export {default as TopArtists} from './topArtists'
 export {default as TopSongs} from './topSongs'

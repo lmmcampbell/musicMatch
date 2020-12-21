@@ -9,8 +9,8 @@ class SpotifyLogIn extends React.Component {
   render() {
     return (
       <div className="log-in">
-        <h1 className="log-in-item">Let's get started!</h1>
-        <div className="log-in-item">
+        <h1 className="log-in-title">Let's get started!</h1>
+        <div className="log-in-button">
           <Button variant="light" href="/login">
             Log in with Spotify
           </Button>

@@ -29,8 +29,9 @@ export class Matches extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let myMatches = this.props.matches.myMatches
-    let matchedMe = this.props.matches.matchedMe
+    let approvedMatches = this.props.matches.approvedMatches
+    let matchedMeUnapproved = this.props.matches.matchedMeUnapproved
+    let myMatchesUnapproved = this.props.matches.myMatchesUnapproved
 
     return (
       <div className="match-page">
@@ -45,39 +46,37 @@ export class Matches extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {myMatches &&
-                myMatches.length &&
-                myMatches
-                  .filter(match => match.match.approved === true)
-                  .map(match => {
-                    return (
-                      <tr key={match.id}>
-                        <td>{match.spotifyId}</td>
-                        <td>
-                          <Button
-                            id="matchSongsButton"
-                            variant="outline-info"
-                            className="matchButton"
-                            as="a"
-                            href={`/matches/${match.id}`}
-                          >
-                            View Match
-                          </Button>
-                        </td>
-                        <td>
-                          <Button
-                            id="deleteMatchButton"
-                            variant="outline-info"
-                            className="matchButton"
-                            onClick={() => this.handleClick(match.id)}
-                          >
-                            Deactivate Match
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })}
-              {matchedMe &&
+              {approvedMatches &&
+                approvedMatches.length > 0 &&
+                approvedMatches.map(match => {
+                  return (
+                    <tr key={match.id}>
+                      <td>{match.spotifyId}</td>
+                      <td>
+                        <Button
+                          id="matchSongsButton"
+                          variant="outline-info"
+                          className="matchButton"
+                          as="a"
+                          href={`/matches/${match.id}`}
+                        >
+                          View Match
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          id="deleteMatchButton"
+                          variant="outline-info"
+                          className="matchButton"
+                          onClick={() => this.handleClick(match.id)}
+                        >
+                          Deactivate Match
+                        </Button>
+                      </td>
+                    </tr>
+                  )
+                })}
+              {/* {matchedMe &&
                 matchedMe.length > 0 &&
                 matchedMe
                   .filter(match => match.matchedUser[0].match.approved === true)
@@ -108,7 +107,7 @@ export class Matches extends React.Component {
                         </td>
                       </tr>
                     )
-                  })}
+                  })} */}
             </tbody>
           </Table>
         </div>

@@ -14,10 +14,13 @@ const getTopArtists = artists => ({
 
 // THUNKS
 export const fetchTopArtists = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
-      const {data} = await axios.get('/api/artists/')
-      dispatch(getTopArtists(data))
+      const state = getState()
+      if (!state.topArtists.length) {
+        const {data} = await axios.get('/api/artists/')
+        dispatch(getTopArtists(data))
+      }
     } catch (error) {
       console.error(error)
     }
