@@ -23,6 +23,11 @@ body {
   text-align: center;
 }
 
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .log-in-title {
   margin-top: 80px;
 }
@@ -66,35 +71,77 @@ form div {
 }
 
 .home-page {
-  padding: 20px;
   margin: 20px;
+  margin-top: 80px;
+  padding: 10px;
   color: white;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
   text-align: center;
 }
 
-.user-card {
-  color: black;
+.navbar-brand {
+  margin-left: 20px;
 }
 
-.match-page {
+.home-page h4 {
+  margin-top: 20px;
+}
+
+#nav-bar-image {
+  max-width: 30px;
+}
+
+.user-home-row {
+  /* margin: 20px; */
+  padding-top: 80px;
+  padding-bottom: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.blue-row {
+  background: #2350d5;
+}
+
+.pink-row {
+  background: purple;
+}
+
+.details-box .text-box {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.details-box {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* .match-page {
   padding: 20px;
   margin: 20px;
   color: white;
+  background: white;
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: space-between;
   text-align: center;
+} */
+
+#match-file {
+  color: white;
+
+  margin: 20px;
 }
 
-.top-list {
+#top-list {
   margin-top: 20px;
-  margin-bottom: 50px;
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .italics {
@@ -128,9 +175,51 @@ form div {
 .user-home {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.note-1,
+.music-notes {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+  font-size: 35px;
+  color: white;
+}
+
+.note {
+  margin: 5px;
+  animation: bounce 2.5s 0.5s linear infinite;
+}
+
+.note-2 {
+  animation-delay: 0.3s;
+}
+
+.note-3 {
+  animation-delay: 0.6s;
+}
+
+.note-4 {
+  animation-delay: 0.9s;
+}
+
+@keyframes bounce {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.6);
+  }
+  75% {
+    transform: scale(1.4);
+  }
+}
+
+/* .note-1,
 .note-2,
 .note-3,
 .note-4 {
@@ -142,26 +231,26 @@ form div {
 }
 
 .note-1 {
-  top: 300px;
-  left: 35%;
+  top: 55%;
+  left: 15%;
   animation-delay: 0.5s;
 }
 
 .note-2 {
-  top: 300px;
-  left: 45%;
+  top: 55%;
+  left: 35%;
   animation-delay: 1s;
 }
 
 .note-3 {
-  top: 300px;
+  top: 55%;
   left: 55%;
   animation-delay: 1.5s;
 }
 
 .note-4 {
-  top: 300px;
-  left: 60%;
+  top: 55%;
+  left: 70%;
   animation-delay: 2s;
 }
 
@@ -182,4 +271,4 @@ form div {
     transform: scale(1.5) translate(100%, -100%);
     opacity: 0;
   }
-}
+} */

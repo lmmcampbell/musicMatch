@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchMatches, addMatch} from '../store/matches'
 import {Form} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
+import {Row, Container, Col} from 'react-bootstrap'
 
 class addMatchForm extends React.Component {
   constructor(props) {
@@ -32,23 +33,24 @@ class addMatchForm extends React.Component {
 
   render() {
     return (
-      <div id="add-match-form">
+      // <div id="add-match-form">
+      <Container fluid>
         <Form onSubmit={this.handleSubmit} className="matchForm">
-          <h4>Request a Match:</h4>
           <Form.Group controlId="formMatchName">
             <Form.Control
               type="text"
               name="matchName"
               value={this.state.matchName}
               onChange={this.handleChange}
-              placeholder="Match's Spotify ID"
+              placeholder="Search for Spotify ID"
             />
           </Form.Group>
+
           <Button type="submit" variant="outline-info" id="add-button">
-            Add Match
+            Add Match{' '}
           </Button>
         </Form>
-      </div>
+      </Container>
     )
   }
 }

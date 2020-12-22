@@ -5,6 +5,7 @@ import AddMatchForm from './addMatchForm'
 import MatchApproval from './matchApproval'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
+import {Container, Row, Col, Tab, Nav, Navbar} from 'react-bootstrap'
 
 export class Matches extends React.Component {
   constructor(props) {
@@ -34,86 +35,75 @@ export class Matches extends React.Component {
     let myMatchesUnapproved = this.props.matches.myMatchesUnapproved
 
     return (
-      <div className="match-page">
-        <h2 className="title">Current Matches</h2>
-        <div id="table-box">
-          <Table striped bordered hover id="match-table">
-            <thead>
-              <tr>
-                <th>Spotify ID</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {approvedMatches &&
-                approvedMatches.length > 0 &&
-                approvedMatches.map(match => {
-                  return (
-                    <tr key={match.id}>
-                      <td>{match.spotifyId}</td>
-                      <td>
-                        <Button
-                          id="matchSongsButton"
-                          variant="outline-info"
-                          className="matchButton"
-                          as="a"
-                          href={`/matches/${match.id}`}
-                        >
-                          View Match
-                        </Button>
-                      </td>
-                      <td>
-                        <Button
-                          id="deleteMatchButton"
-                          variant="outline-info"
-                          className="matchButton"
-                          onClick={() => this.handleClick(match.id)}
-                        >
-                          Deactivate Match
-                        </Button>
-                      </td>
+      <Container fluid id="match-file">
+        <Tab.Container defaultActiveKey="first" id="match-page">
+          <Nav variant="pills">
+            <Nav.Item>
+              <Nav.Link eventKey="first">Matches</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="second">Match Requests</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="third">Find Matches</Nav.Link>
+            </Nav.Item>
+          </Nav>
+
+          <Tab.Content>
+            <Tab.Pane eventKey="first">
+              <div id="table-box">
+                <Table striped bordered hover id="match-table">
+                  <thead>
+                    <tr>
+                      <th>Spotify ID</th>
+                      <th />
+                      <th />
                     </tr>
-                  )
-                })}
-              {/* {matchedMe &&
-                matchedMe.length > 0 &&
-                matchedMe
-                  .filter(match => match.matchedUser[0].match.approved === true)
-                  .map(match => {
-                    return (
-                      <tr key={match.id}>
-                        <td>{match.spotifyId}</td>
-                        <td>
-                          <Button
-                            id="matchSongsButton"
-                            variant="outline-info"
-                            className="matchButton"
-                            as="a"
-                            href={`/matches/${match.id}`}
-                          >
-                            View Match
-                          </Button>
-                        </td>
-                        <td>
-                          <Button
-                            id="deleteMatchButton"
-                            variant="outline-info"
-                            className="matchButton"
-                            onClick={() => this.handleClick(match.id)}
-                          >
-                            Deactivate Match
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })} */}
-            </tbody>
-          </Table>
-        </div>
-        <MatchApproval />
-        <AddMatchForm />
-      </div>
+                  </thead>
+                  <tbody>
+                    {approvedMatches &&
+                      approvedMatches.length > 0 &&
+                      approvedMatches.map(match => {
+                        return (
+                          <tr key={match.id}>
+                            <td>{match.spotifyId}</td>
+                            <td>
+                              <Button
+                                id="matchSongsButton"
+                                variant="outline-info"
+                                className="matchButton"
+                                as="a"
+                                href={`/matches/${match.id}`}
+                              >
+                                View Match
+                              </Button>
+                            </td>
+                            <td>
+                              <Button
+                                id="deleteMatchButton"
+                                variant="outline-info"
+                                className="matchButton"
+                                onClick={() => this.handleClick(match.id)}
+                              >
+                                Deactivate Match
+                              </Button>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                  </tbody>
+                </Table>
+              </div>
+            </Tab.Pane>
+            <Tab.Pane eventKey="second">
+              <MatchApproval />
+            </Tab.Pane>
+            <Tab.Pane eventKey="third">
+              <AddMatchForm />
+            </Tab.Pane>
+          </Tab.Content>
+        </Tab.Container>
+      </Container>
     )
   }
 }

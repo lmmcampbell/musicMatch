@@ -4,8 +4,8 @@ import {fetchTopSongs} from '../store/songs'
 import {fetchMatches} from '../store/matches'
 import {connect} from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import {Row, Container, Col} from 'react-bootstrap'
 
 class UserHome extends React.Component {
   constructor(props) {
@@ -43,73 +43,79 @@ class UserHome extends React.Component {
     let matchHighlight = this.props.matchHighlight
 
     return (
-      <div className="user-home">
-        <Card className="user-card" style={{width: '18rem'}}>
-          <Card.Img variant="top" src={user.images} />
-          <Card.Body>
-            <Card.Title>{user.display_name}</Card.Title>
-            <Card.Text>Spotify Id: {user.spotifyId}</Card.Text>
-            <Button
-              id="matchSongsButton"
-              variant="outline-info"
-              className="matchButton"
-              href="/matches"
-            >
-              {numberMatches} Matches
-            </Button>
-          </Card.Body>
-        </Card>
-        {artistHighlight.name && (
-          <Card className="user-card" style={{width: '18rem'}}>
-            <Card.Img variant="top" src={artistHighlight.images[0]} />
-            <Card.Body>
-              <Card.Title>{artistHighlight.name}</Card.Title>
-              <Button
-                id="matchSongsButton"
-                variant="outline-info"
-                className="matchButton"
-                href="/artists"
-              >
-                More Top Artists
-              </Button>
-            </Card.Body>
-          </Card>
-        )}
-        {songHighlight.name && (
-          <Card className="user-card" style={{width: '18rem'}}>
-            <Card.Img variant="top" src={songHighlight.images[0]} />
-            <Card.Body>
-              <Card.Title>{songHighlight.name}</Card.Title>
-              <Button
-                id="matchSongsButton"
-                variant="outline-info"
-                className="matchButton"
-                href="/songs"
-              >
-                More Top Songs
-              </Button>
-            </Card.Body>
-          </Card>
-        )}
+      <Container fluid>
         {matchHighlight.display_name && (
-          <Card className="user-card" style={{width: '18rem'}}>
-            {matchHighlight.images[0] && (
-              <Card.Img variant="top" src={matchHighlight.images[0]} />
-            )}
-            <Card.Body>
-              <Card.Title>{matchHighlight.spotifyId}</Card.Title>
+          <Row className="user-home-row blue-row">
+            <Col xs={12} md={{span: 5, offset: 1}}>
+              {matchHighlight.images[0] && (
+                <img src={matchHighlight.images[0]} />
+              )}
+            </Col>
+            <Col s={12} md={{span: 5}} className="details-box">
+              <div className="text-box">
+                <h3>You've matched with:</h3>
+                <h2>{matchHighlight.spotifyId}</h2>
+              </div>
               <Button
                 id="matchSongsButton"
-                variant="outline-info"
+                variant="info"
                 className="matchButton"
                 href="/matches"
               >
                 More Matches
               </Button>
-            </Card.Body>
-          </Card>
+            </Col>
+          </Row>
         )}
-      </div>
+
+        {artistHighlight.name && (
+          <Row className="user-home-row pink-row">
+            <Col
+              xs={{span: 12, order: 'last'}}
+              md={{span: 5, offset: 1, order: 'first'}}
+              className="details-box"
+            >
+              <div className="text-box">
+                <h3>You Love:</h3>
+                <h2>{artistHighlight.name}</h2>
+              </div>
+              <Button
+                id="matchSongsButton"
+                variant="info"
+                className="matchButton"
+                href="/artists"
+              >
+                See More Top Artists
+              </Button>
+            </Col>
+            <Col s={{span: 12, order: 'first'}} md={{span: 5, order: 'last'}}>
+              <img src={artistHighlight.images[0]} />
+            </Col>
+          </Row>
+        )}
+
+        {songHighlight.name && (
+          <Row className="user-home-row blue-row">
+            <Col xs={12} md={{span: 5, offset: 1}}>
+              <img variant="top" src={songHighlight.images[0]} />
+            </Col>
+            <Col s={12} md={{span: 5}} className="details-box">
+              <div className="text-box">
+                <h3>You Love:</h3>
+                <h2>{songHighlight.name}</h2>
+              </div>
+              <Button
+                id="matchSongsButton"
+                variant="info"
+                className="matchButton"
+                href="/songs"
+              >
+                See More Top Songs
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </Container>
     )
   }
 }

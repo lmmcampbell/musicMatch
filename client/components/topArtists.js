@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchTopArtists} from '../store/artists'
 import ListGroup from 'react-bootstrap/ListGroup'
+import {Container, Row, Col} from 'react-bootstrap'
 
 export class TopArtists extends React.Component {
   constructor(props) {
@@ -22,20 +23,30 @@ export class TopArtists extends React.Component {
     }
     let artists = this.props.topArtists
     return (
-      <ListGroup className="top-list">
-        <h2 className="title">Your Top Artists</h2>
-        <div>
-          {artists && artists.length ? (
-            artists.map(artist => {
-              return (
-                <ListGroup.Item key={artist.id}>{artist.name}</ListGroup.Item>
-              )
-            })
-          ) : (
-            <div>No top artists to view</div>
-          )}
-        </div>
-      </ListGroup>
+      <Container>
+        <ListGroup id="top-list">
+          <Row>
+            <Col>
+              <h2 className="title">Your Top Artists</h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={{span: 8, offset: 2}}>
+              {artists && artists.length ? (
+                artists.map(artist => {
+                  return (
+                    <ListGroup.Item key={artist.id}>
+                      {artist.name}
+                    </ListGroup.Item>
+                  )
+                })
+              ) : (
+                <div>No top artists to view</div>
+              )}
+            </Col>
+          </Row>
+        </ListGroup>
+      </Container>
     )
   }
 }

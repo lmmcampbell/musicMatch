@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {logout} from '../store'
 import Navbar from 'react-bootstrap/Navbar'
+import {Nav} from 'react-bootstrap'
 
-const NavbarComponent = ({handleClick, isLoggedIn}) => (
+const NavbarComponent = ({handleClick, isLoggedIn, user}) => (
   <div>
-    <Navbar bg="light">
+    <Navbar bg="light" expand="lg">
       <Navbar.Brand>
         <img
           alt=""
@@ -17,17 +18,32 @@ const NavbarComponent = ({handleClick, isLoggedIn}) => (
           className="d-inline-block align-top"
         />
         {'  '}
-        MUSIC MATCH
+        Music Match
       </Navbar.Brand>
       {isLoggedIn && (
         <>
-          <Link to="/home">Home</Link>
-          <Link to="/artists">Top Artists</Link>
-          <Link to="/songs">Top Songs</Link>
-          <Link to="/matches">Matches</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse
+            id="responsive-navbar-nav"
+            className="justify-content-end"
+          >
+            <Nav.Link as={NavLink} to="/home">
+              Home
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/artists">
+              Top Artists
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/songs">
+              Top Songs
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/matches">
+              Matches
+            </Nav.Link>
+            {/* <img src={user.images} id="nav-bar-image"/> */}
+            <Nav.Link href="#" onClick={handleClick}>
+              Logout
+            </Nav.Link>
+          </Navbar.Collapse>
         </>
       )}
     </Navbar>
@@ -40,7 +56,8 @@ const NavbarComponent = ({handleClick, isLoggedIn}) => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    userId: state.user.id
+    userId: state.user.id,
+    user: state.user
   }
 }
 

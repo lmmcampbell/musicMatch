@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchTopSongs} from '../store/songs'
 import ListGroup from 'react-bootstrap/ListGroup'
+import {Container, Row, Col} from 'react-bootstrap'
 
 export class TopSongs extends React.Component {
   constructor(props) {
@@ -22,22 +23,31 @@ export class TopSongs extends React.Component {
     }
     let songs = this.props.topSongs
     return (
-      <ListGroup className="top-list">
-        <h2 className="title">Your Top Songs</h2>
-        <div>
-          {songs && songs.length ? (
-            songs.map(song => {
-              return (
-                <ListGroup.Item key={song.id}>
-                  <span className="italics">{song.name} </span>by {song.artists}
-                </ListGroup.Item>
-              )
-            })
-          ) : (
-            <div>No top songs to view</div>
-          )}
-        </div>
-      </ListGroup>
+      <Container>
+        <ListGroup id="top-list">
+          <Row>
+            <Col>
+              <h2 className="title">Your Top Songs</h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} md={{span: 8, offset: 2}}>
+              {songs && songs.length ? (
+                songs.map(song => {
+                  return (
+                    <ListGroup.Item key={song.id}>
+                      <span className="italics">{song.name} </span>by{' '}
+                      {song.artists}
+                    </ListGroup.Item>
+                  )
+                })
+              ) : (
+                <div>No top songs to view</div>
+              )}
+            </Col>
+          </Row>
+        </ListGroup>
+      </Container>
     )
   }
 }

@@ -2,8 +2,8 @@ import React from 'react'
 import {setToken} from '../store/token'
 import {fetchSpotifyUser} from '../store/user'
 import {connect} from 'react-redux'
-import Spinner from 'react-bootstrap/Spinner'
 import {UserHome} from './index'
+import {Container, Row, Col} from 'react-bootstrap'
 
 class Home extends React.Component {
   constructor(props) {
@@ -41,37 +41,30 @@ class Home extends React.Component {
   }
 
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading || !this.props.user.id) {
       return (
-        <div className="home-page">
-          <div>LOADING!</div>
-          <Spinner animation="border" role="status">
-            <span className="sr-only">Loading spinner</span>
-          </Spinner>
-        </div>
+        <Container className="home-page">
+          <Row>
+            <Col>
+              <h3>Welcome back to Spotify Match!</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h4>Loading Spotify data...</h4>
+            </Col>
+          </Row>
+          <div className="music-notes">
+            <div className="note note-1">♫</div>
+            <div className="note note-2">&#9833;</div>
+            <div className="note note-3">&#9834;</div>
+            <div className="note note-4">&#9833;</div>
+          </div>
+        </Container>
       )
     }
 
-    return (
-      <div className="home-page">
-        {!this.props.user.id && (
-          <div>
-            <h1>Welcome back to Spotify Match!</h1>
-            {/* <Spinner animation="border" role="status">
-              <span className="sr-only">Loading spinner</span>
-            </Spinner> */}
-            <div className="music-notes">
-              <div className="note-1">♫</div>
-              <div className="note-2">&#9833;</div>
-              <div className="note-3">&#9834;</div>
-              <div className="note-4">&#9833;</div>
-            </div>
-            <div>Loading Spotify data...</div>
-          </div>
-        )}
-        {this.props.user.id && <UserHome />}
-      </div>
-    )
+    return <UserHome />
   }
 }
 
