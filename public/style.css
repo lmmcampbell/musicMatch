@@ -119,6 +119,16 @@ form div {
   justify-content: center;
 }
 
+.match-details-box {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 /* .match-page {
   padding: 20px;
   margin: 20px;
@@ -133,8 +143,23 @@ form div {
 
 #match-file {
   color: white;
+  background: lightgoldenrodyellow;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+/* .match-nav{
+  background: #2350d5;
+} */
 
-  margin: 20px;
+.match-image {
+  border-radius: 5px;
+}
+
+.match-card {
+  background: peachpuff;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #top-list {
