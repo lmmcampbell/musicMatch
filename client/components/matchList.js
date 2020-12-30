@@ -2,9 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import Button from 'react-bootstrap/Button'
-import {FileX} from 'react-bootstrap-icons'
+import {FileX, Trash} from 'react-bootstrap-icons'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
-
 export class MatchList extends React.Component {
   constructor(props) {
     super(props)
@@ -29,30 +28,31 @@ export class MatchList extends React.Component {
       return <div>LOADING</div>
     }
     let approvedMatches = this.props.matches.approvedMatches
-    let matchedMeUnapproved = this.props.matches.matchedMeUnapproved
-    let myMatchesUnapproved = this.props.matches.myMatchesUnapproved
+    let approvedMatchesRows = this.props.matches.approvedMatchesRows
 
     return (
       <Container>
         <div id="matches-box">
-          {approvedMatches &&
-            approvedMatches.length > 0 &&
-            approvedMatches.map(match => {
+          {approvedMatchesRows &&
+            approvedMatchesRows.length > 0 &&
+            approvedMatchesRows.map(match => {
+              const match1 = match[0]
+              const match2 = match[1]
               return (
-                <Row key={match.id} className="match-card">
-                  <Col xs={12} md={{span: 2, offset: 1}}>
-                    <img src={match.images[0]} className="match-image" />
+                <Row key={match1.id} className="match-card">
+                  <Col xs={12} md={{span: 2}}>
+                    <img src={match1.images[0]} className="match-image" />
                   </Col>
-                  <Col s={12} md={{span: 2}} className="match-details-box">
+                  <Col s={12} md={{span: 3}} className="match-details-box">
                     <div>
                       <Button
                         id="matchSongsButton"
-                        variant="outline-info"
+                        variant="info"
                         className="matchButton"
                         as="a"
-                        href={`/matches/${match.id}`}
+                        href={`/matches/${match1.id}`}
                       >
-                        {match.spotifyId}
+                        {match1.spotifyId}
                       </Button>
                     </div>
                     <div>
@@ -62,15 +62,52 @@ export class MatchList extends React.Component {
                       >
                         <Button
                           id="deleteMatchButton"
-                          variant="outline-info"
+                          variant="info"
                           className="matchButton"
-                          onClick={() => this.handleClick(match.id)}
+                          onClick={() => this.handleClick(match1.id)}
                         >
-                          <FileX />
+                          <Trash />
                         </Button>
                       </OverlayTrigger>
                     </div>
                   </Col>
+                  {match2 && (
+                    <>
+                      <Col xs={12} md={{span: 2, offset: 1}}>
+                        <img src={match2.images[0]} className="match-image" />
+                      </Col>
+                      <Col s={12} md={{span: 3}} className="match-details-box">
+                        <div>
+                          <Button
+                            id="matchSongsButton"
+                            variant="info"
+                            className="matchButton"
+                            as="a"
+                            href={`/matches/${match2.id}`}
+                          >
+                            {match2.spotifyId}
+                          </Button>
+                        </div>
+                        <div>
+                          <OverlayTrigger
+                            placement="right"
+                            overlay={
+                              <Tooltip id="tooltip-right">Unmatch</Tooltip>
+                            }
+                          >
+                            <Button
+                              id="deleteMatchButton"
+                              variant="info"
+                              className="matchButton"
+                              onClick={() => this.handleClick(match2.id)}
+                            >
+                              <Trash />
+                            </Button>
+                          </OverlayTrigger>
+                        </div>
+                      </Col>
+                    </>
+                  )}
                 </Row>
               )
             })}

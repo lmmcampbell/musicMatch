@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchMatches, fetchApproveMatch} from '../store/matches'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
+import {Row, Container, Col} from 'react-bootstrap'
 
 export class MatchApproval extends React.Component {
   constructor(props) {
@@ -27,44 +28,62 @@ export class MatchApproval extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let matchedMeUnapproved = this.props.matches.matchedMeUnapproved
+    let matchedMeUnapprovedRows = this.props.matches.matchedMeUnapprovedRows
     return (
-      <div className="match-approval">
-        <h2 className="title">Match Requests</h2>
-        <div id="table-box">
-          <Table striped bordered hover id="match-table">
-            <thead>
-              <tr>
-                <th>Spotify ID</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {matchedMeUnapproved && matchedMeUnapproved.length > 0 ? (
-                matchedMeUnapproved.map(match => {
-                  return (
-                    <tr key={match.id}>
-                      <td>{match.spotifyId}</td>
-                      <td>
+      <Container className="match-approval">
+        <div id="matches-box">
+          {matchedMeUnapprovedRows && matchedMeUnapprovedRows.length > 0 ? (
+            matchedMeUnapprovedRows.map(match => {
+              const match1 = match[0]
+              const match2 = match[1]
+              return (
+                <Row key={match1.id} className="match-card">
+                  <Col xs={12} md={{span: 2}}>
+                    <img src={match1.images[0]} className="match-image" />
+                  </Col>
+                  <Col s={12} md={{span: 2}}>
+                    {match1.spotifyId}
+                  </Col>
+                  <Col s={12} md={{span: 2}}>
+                    <Button
+                      id="approveMatchButton"
+                      variant="info"
+                      className="matchButton"
+                      onClick={() => this.handleClick(match1.id)}
+                    >
+                      Approve
+                    </Button>
+                  </Col>
+                  {match2 && (
+                    <>
+                      <Col xs={12} md={{span: 2}}>
+                        <img src={match2.images[0]} className="match-image" />
+                      </Col>
+                      <Col s={12} md={{span: 2}}>
+                        {match2.spotifyId}
+                      </Col>
+                      <Col s={12} md={{span: 2}}>
                         <Button
                           id="approveMatchButton"
-                          variant="outline-info"
+                          variant="info"
                           className="matchButton"
-                          onClick={() => this.handleClick(match.id)}
+                          onClick={() => this.handleClick(match2.id)}
                         >
                           Approve
                         </Button>
-                      </td>
-                    </tr>
-                  )
-                })
-              ) : (
-                <tr>No match requests waiting for approval!</tr>
-              )}
-            </tbody>
-          </Table>
+                      </Col>
+                    </>
+                  )}
+                </Row>
+              )
+            })
+          ) : (
+            <Row className="match-approval-row">
+              <Col>No match requests waiting for approval!</Col>
+            </Row>
+          )}
         </div>
-      </div>
+      </Container>
     )
   }
 }

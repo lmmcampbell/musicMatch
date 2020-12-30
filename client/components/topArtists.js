@@ -23,7 +23,7 @@ export class TopArtists extends React.Component {
     }
     let artists = this.props.topArtists
     return (
-      <Container>
+      <Container fluid className="top-page">
         <ListGroup id="top-list">
           <Row>
             <Col>

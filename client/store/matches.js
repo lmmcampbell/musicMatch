@@ -61,8 +61,34 @@ export const fetchDeleteMatch = id => {
 // REDUCER
 export const matches = (state = initialState, action) => {
   switch (action.type) {
-    case GET_MATCHES:
-      return action.matches
+    case GET_MATCHES: {
+      let matchObj = action.matches
+      let approvedMatches = matchObj.approvedMatches
+      let modifiedArray = []
+      for (let i = 0; i < approvedMatches.length; i++) {
+        if (i % 2 === 0) {
+          let miniArray = []
+          miniArray.push(approvedMatches[i])
+          miniArray.push(approvedMatches[i + 1])
+          modifiedArray.push(miniArray)
+        }
+      }
+      matchObj.approvedMatchesRows = modifiedArray
+      // reformatting unapproved matches
+      let unapprovedMatches = matchObj.matchedMeUnapproved
+      let modifiedArray2 = []
+      for (let i = 0; i < unapprovedMatches.length; i++) {
+        if (i % 2 === 0) {
+          let miniArray = []
+          miniArray.push(unapprovedMatches[i])
+          miniArray.push(unapprovedMatches[i + 1])
+          modifiedArray2.push(miniArray)
+        }
+      }
+      matchObj.matchedMeUnapprovedRows = modifiedArray2
+
+      return matchObj
+    }
     default:
       return state
   }

@@ -24,10 +24,10 @@ export class Matches extends React.Component {
     }
 
     return (
-      <Container id="match-file">
-        <Tab.Container defaultActiveKey="first" id="match-page">
-          <Nav className="match-nav">
-            <Nav.Item>
+      <Container fluid id="match-file">
+        <Tab.Container fluid defaultActiveKey="first" id="match-page">
+          <Nav variant="pills info" className="match-nav">
+            <Nav.Item className="first-match-link">
               <Nav.Link eventKey="first">Matches</Nav.Link>
             </Nav.Item>
             <Nav.Item>

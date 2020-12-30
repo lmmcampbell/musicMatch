@@ -99,6 +99,10 @@ form div {
   text-align: center;
 }
 
+.top-page {
+  background: #2350d5;
+}
+
 .blue-row {
   background: #2350d5;
 }
@@ -124,49 +128,75 @@ form div {
   display: flex;
   flex-direction: row;
   align-content: center;
-  justify-content: center;
+  justify-content: space-around;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* .match-page {
-  padding: 20px;
-  margin: 20px;
-  color: white;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: space-between;
-  text-align: center;
-} */
-
 #match-file {
   color: white;
-  background: lightgoldenrodyellow;
-  margin-top: 20px;
-  border-radius: 5px;
-}
-/* .match-nav{
   background: #2350d5;
-} */
+  min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  /* margin-top: 20px;
+  border-radius: 5px; */
+}
+
+#match-file:after {
+  content: '';
+  display: table;
+  clear: both;
+  margin: 0;
+}
+
+.match-nav {
+  background: #17a2b8;
+  margin: 0px;
+  padding: 10px;
+  justify-content: space-around;
+}
+
+#matches-box {
+  margin: 40px;
+}
+
+.nav-pills a.nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #2350d5;
+}
+
+.match-nav a {
+  color: #fff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.match-approval-row {
+  background: white;
+  color: black;
+  padding: 20px;
+}
 
 .match-image {
   border-radius: 5px;
 }
 
 .match-card {
-  background: peachpuff;
+  background: whitesmoke;
   color: black;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   padding: 10px;
 }
 
 #top-list {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  /* margin-top: 20px;
+  margin-bottom: 40px; */
   margin-left: 10px;
   margin-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 50px;
 }
 
 .italics {
