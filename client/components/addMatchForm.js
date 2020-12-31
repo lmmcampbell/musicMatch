@@ -35,21 +35,25 @@ class addMatchForm extends React.Component {
     return (
       // <div id="add-match-form">
       <Container fluid>
-        <Form onSubmit={this.handleSubmit} className="matchForm">
-          <Form.Group controlId="formMatchName">
-            <Form.Control
-              type="text"
-              name="matchName"
-              value={this.state.matchName}
-              onChange={this.handleChange}
-              placeholder="Search for Spotify ID"
-            />
-          </Form.Group>
+        <Row className="add-match">
+          <Col s={12} md={{span: 5, offset: 3}}>
+            <Form onSubmit={this.handleSubmit} className="matchForm">
+              <Form.Group controlId="formMatchName">
+                <Form.Control
+                  type="text"
+                  name="matchName"
+                  value={this.state.matchName}
+                  onChange={this.handleChange}
+                  placeholder="Search for Spotify ID"
+                />
+              </Form.Group>
 
-          <Button type="submit" variant="outline-info" id="add-button">
-            Add Match{' '}
-          </Button>
-        </Form>
+              <Button type="submit" variant="info">
+                Add Match{' '}
+              </Button>
+            </Form>
+          </Col>
+        </Row>
       </Container>
     )
   }

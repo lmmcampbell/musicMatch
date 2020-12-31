@@ -99,8 +99,12 @@ form div {
   text-align: center;
 }
 
-.top-page {
+.top-artist-page {
   background: #2350d5;
+}
+
+.top-song-page {
+  background: purple;
 }
 
 .blue-row {
@@ -177,6 +181,10 @@ form div {
   background: white;
   color: black;
   padding: 20px;
+}
+
+.add-match {
+  margin: 40px;
 }
 
 .match-image {
