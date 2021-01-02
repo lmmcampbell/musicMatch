@@ -4,14 +4,14 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: [
     '@babel/polyfill', // enables async-await
-    './client/index.js'
+    './client/index.tsx'
   ],
   output: {
     path: __dirname,
     filename: './public/bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.tsx', '.ts']
   },
   devtool: 'source-map',
   watchOptions: {
@@ -23,6 +23,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
   }
