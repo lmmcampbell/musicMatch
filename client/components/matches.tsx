@@ -1,13 +1,28 @@
 import React from 'react'
+import { Dispatch } from 'redux'
 import {connect} from 'react-redux'
 import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import AddMatchForm from './addMatchForm'
 import MatchApproval from './matchApproval'
 import MatchList from './matchList'
-import {Container, Row, Col, Tab, Nav} from 'react-bootstrap'
+import {Container, Tab, Nav} from 'react-bootstrap'
+import { AppState, Matches, User } from '../types';
+import { ThunkDispatch } from 'redux-thunk'
+import { SongAction } from '../store/songs'
 
-export class Matches extends React.Component {
-  constructor(props) {
+export type MatchesProps = {
+  fetchMatches: () => undefined;
+  fetchDeleteMatches: (id: number) => undefined;
+  matches: Matches;
+  user: User;
+}
+
+export type MatchesState = {
+  isLoading: boolean;
+}
+
+export class MatchesComponent extends React.Component<MatchesProps, MatchesState> {
+  constructor(props: MatchesProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -25,8 +40,8 @@ export class Matches extends React.Component {
 
     return (
       <Container fluid id="match-file">
-        <Tab.Container fluid defaultActiveKey="first" id="match-page">
-          <Nav variant="pills info" className="match-nav">
+        <Tab.Container defaultActiveKey="first" id="match-page">
+          <Nav variant="pills" className="match-nav">
             <Nav.Item className="first-match-link">
               <Nav.Link eventKey="first">Matches</Nav.Link>
             </Nav.Item>
@@ -55,14 +70,14 @@ export class Matches extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: AppState) => ({
   matches: state.matches,
   user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, SongAction>) => ({
   fetchMatches: () => dispatch(fetchMatches()),
-  fetchDeleteMatch: id => dispatch(fetchDeleteMatch(id))
+  fetchDeleteMatch: (id: number) => dispatch(fetchDeleteMatch(id))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Matches)
+export default connect(mapStateToProps, mapDispatchToProps)(MatchesComponent)

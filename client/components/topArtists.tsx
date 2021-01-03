@@ -1,11 +1,22 @@
 import React from 'react'
+import { Dispatch } from 'redux';
 import {connect} from 'react-redux'
 import {fetchTopArtists} from '../store/artists'
 import ListGroup from 'react-bootstrap/ListGroup'
 import {Container, Row, Col} from 'react-bootstrap'
+import { TopArtists, AppState } from '../types';
 
-export class TopArtists extends React.Component {
-  constructor(props) {
+export type TopArtistsProps = {
+  fetchTopArtists: () => undefined;
+  topArtists: TopArtists;
+}
+
+export type TopArtistsState = {
+  isLoading: boolean;
+}
+
+export class TopArtistsComponent extends React.Component<TopArtistsProps, TopArtistsState> {
+  constructor(props: TopArtistsProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -51,13 +62,12 @@ export class TopArtists extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  topArtists: state.topArtists,
-  user: state.user
+const mapStateToProps = (state: AppState) => ({
+  topArtists: state.topArtists
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   fetchTopArtists: () => dispatch(fetchTopArtists())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopArtists)
+export default connect(mapStateToProps, mapDispatchToProps)(TopArtistsComponent)

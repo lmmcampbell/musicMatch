@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Action, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { AppState, Song } from '../types';
 
 // ACTION TYPES

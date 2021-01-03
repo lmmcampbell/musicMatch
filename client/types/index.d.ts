@@ -57,10 +57,9 @@ export type Token = any;
 export type TopArtists = Artist[];
 export type TopSongs = Song[];
 
-
-
 export type AppState = {
   matches: Matches;
   user: User;
   topSongs: TopSongs;
+  topArtists: TopArtists;
 }

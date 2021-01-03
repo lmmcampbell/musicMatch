@@ -1,10 +1,11 @@
-import React from 'react'
-import { Dispatch } from 'redux';
-import {connect } from 'react-redux'
-import {fetchMatches, fetchApproveMatch} from '../store/matches'
-import Button from 'react-bootstrap/Button'
-import {Row, Container, Col} from 'react-bootstrap';
-import { Matches, AppState } from '../types';
+import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import { ThunkDispatch } from 'redux-thunk';
+import { connect } from 'react-redux';
+import { fetchApproveMatch, fetchMatches } from '../store/matches';
+import { AppState, Matches } from '../types';
+import { SongAction } from '../store/songs';
 
 export type MatchApprovalProps = {
   fetchMatches: () => undefined;
@@ -14,6 +15,7 @@ export type MatchApprovalProps = {
 export type MatchApprovalState = {
   isLoading: boolean;
 }
+
 export class MatchApproval extends React.Component<MatchApprovalProps, MatchApprovalState> {
   constructor(props: MatchApprovalProps) {
     super(props)
@@ -101,7 +103,9 @@ const mapStateToProps = (state: AppState) => ({
   user: state.user
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+
+// todo: change SongAction to actually be ActionType or whatevs.
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, SongAction>) => ({
   fetchMatches: () => dispatch(fetchMatches()),
   fetchApproveMatch: (id: number) => dispatch(fetchApproveMatch(id))
 })
