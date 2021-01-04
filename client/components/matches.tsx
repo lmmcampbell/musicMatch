@@ -1,5 +1,4 @@
 import React from 'react'
-import { Dispatch } from 'redux'
 import {connect} from 'react-redux'
 import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import AddMatchForm from './addMatchForm'

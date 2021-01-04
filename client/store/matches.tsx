@@ -1,20 +1,25 @@
 import axios from 'axios'
+import { Dispatch } from 'redux';
+import { ActionType, Match, Matches, MatchesAction } from '../types';
+
+export type MatchesState = Matches | null
+
 
 // ACTION TYPES
-const GET_MATCHES = 'GET_MATCHES'
+const GET_MATCHES: ActionType & 'GET_MATCHES' = 'GET_MATCHES'
 
 // INITIAL STATE
-const initialState = {}
+const initialState: MatchesState = null
 
 // ACTION CREATORS
-const getMatches = matches => ({
+const getMatches = (matches: MatchesAction) => ({
   type: GET_MATCHES,
   matches
 })
 
 // THUNKS
 export const fetchMatches = () => {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     try {
       const {data} = await axios.get('/api/matches/')
       dispatch(getMatches(data))
@@ -24,8 +29,8 @@ export const fetchMatches = () => {
   }
 }
 
-export const addMatch = match => {
-  return async dispatch => {
+export const addMatch = (match: Match) => {
+  return async (dispatch: Dispatch) => {
     try {
       await axios.post('/api/matches/', match)
       dispatch(fetchMatches())
@@ -35,8 +40,8 @@ export const addMatch = match => {
   }
 }
 
-export const fetchApproveMatch = id => {
-  return async dispatch => {
+export const fetchApproveMatch = (id: number) => {
+  return async (dispatch: Dispatch) => {
     try {
       let update = {approved: true}
       await axios.put(`/api/matches/${id}`, update)
@@ -47,8 +52,8 @@ export const fetchApproveMatch = id => {
   }
 }
 
-export const fetchDeleteMatch = id => {
-  return async dispatch => {
+export const fetchDeleteMatch = (id: number) => {
+  return async (dispatch: Dispatch) => {
     try {
       await axios.delete(`/api/matches/${id}`)
       dispatch(fetchMatches())
@@ -59,7 +64,7 @@ export const fetchDeleteMatch = id => {
 }
 
 // REDUCER
-export const matches = (state = initialState, action) => {
+export const matches = (state = initialState, action: MatchesAction) => {
   switch (action.type) {
     case GET_MATCHES: {
       let matchObj = action.matches

@@ -1,28 +1,17 @@
 import axios from 'axios'
-import { Action, Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { AppState, Song } from '../types';
-
-// ACTION TYPES
-// enum ActionTypes {
-//   GET_TOP_SONGS = 'GET_TOP_SONGS',
-//   GET_TOP_ARTISTS = '',
-// };
-// const GET_TOP_SONGS = ActionTypes.GET_TOP_SONGS;
-
-export type ActionType = 'GET_TOP_SONGS' | 'GET_TOP_ARTISTS';
+import { Dispatch } from 'redux';
+import { AppState, ActionType, Song, SongsAction } from '../types';
 
 export type SongsState = Song[]
-export type SongAction = Action<ActionType> & {
-  songs: Song[]
-}
+
+
 const GET_TOP_SONGS: ActionType & 'GET_TOP_SONGS' = 'GET_TOP_SONGS';
 
 // INITIAL STATE
 const initialState: SongsState = []
 
 // ACTION CREATORS
-const getTopSongs = (songs: Song[]): SongAction => ({
+const getTopSongs = (songs: Song[]): SongsAction => ({
   type: GET_TOP_SONGS,
   songs
 })
@@ -43,7 +32,7 @@ export const fetchTopSongs = () => {
 }
 
 // REDUCER
-export const topSongs = (state = initialState, action: SongAction) => {
+export const topSongs = (state = initialState, action: SongsAction) => {
   switch (action.type) {
     case GET_TOP_SONGS:
       return action.songs

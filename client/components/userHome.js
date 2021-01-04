@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {fetchTopArtists} from '../store/artists'
 import {fetchTopSongs} from '../store/songs'
@@ -38,83 +39,84 @@ class UserHome extends React.Component {
 
     let artistHighlight = this.props.artistHighlight
     let songHighlight = this.props.songHighlight
-    let user = this.props.user
-    let numberMatches = this.props.matches.numberMatches
     let matchHighlight = this.props.matchHighlight
 
     return (
       <Container fluid>
-        {matchHighlight.display_name && (
-          <Row className="user-home-row blue-row">
-            <Col xs={12} md={{span: 5, offset: 1}}>
-              {matchHighlight.images[0] && (
-                <img src={matchHighlight.images[0]} />
-              )}
-            </Col>
-            <Col s={12} md={{span: 5}} className="details-box">
-              <div className="text-box">
-                <h3>You've matched with:</h3>
-                <h2>{matchHighlight.spotifyId}</h2>
-              </div>
-              <Button
-                id="matchSongsButton"
-                variant="info"
-                className="matchButton"
-                href="/matches"
-              >
-                More Matches
-              </Button>
-            </Col>
-          </Row>
-        )}
+        {matchHighlight &&
+          matchHighlight.display_name && (
+            <Row className="user-home-row blue-row">
+              <Col xs={12} md={{span: 5, offset: 1}}>
+                {matchHighlight.images[0] && (
+                  <img src={matchHighlight.images[0]} />
+                )}
+              </Col>
+              <Col s={12} md={{span: 5}} className="details-box">
+                <div className="text-box">
+                  <h3>You've matched with:</h3>
+                  <h2>{matchHighlight.spotifyId}</h2>
+                </div>
+                <Button
+                  id="matchSongsButton"
+                  variant="info"
+                  className="matchButton"
+                  href="/matches"
+                >
+                  More Matches
+                </Button>
+              </Col>
+            </Row>
+          )}
 
-        {artistHighlight.name && (
-          <Row className="user-home-row pink-row">
-            <Col
-              xs={{span: 12, order: 'last'}}
-              md={{span: 5, offset: 1, order: 'first'}}
-              className="details-box"
-            >
-              <div className="text-box">
-                <h3>You Love:</h3>
-                <h2>{artistHighlight.name}</h2>
-              </div>
-              <Button
-                id="matchSongsButton"
-                variant="info"
-                className="matchButton"
-                href="/artists"
+        {artistHighlight &&
+          artistHighlight.name && (
+            <Row className="user-home-row pink-row">
+              <Col
+                xs={{span: 12, order: 'last'}}
+                md={{span: 5, offset: 1, order: 'first'}}
+                className="details-box"
               >
-                See More Top Artists
-              </Button>
-            </Col>
-            <Col s={{span: 12, order: 'first'}} md={{span: 5, order: 'last'}}>
-              <img src={artistHighlight.images[0]} />
-            </Col>
-          </Row>
-        )}
+                <div className="text-box">
+                  <h3>You Love:</h3>
+                  <h2>{artistHighlight.name}</h2>
+                </div>
+                <Button
+                  id="matchSongsButton"
+                  variant="info"
+                  className="matchButton"
+                  href="/artists"
+                >
+                  See More Top Artists
+                </Button>
+              </Col>
+              <Col s={{span: 12, order: 'first'}} md={{span: 5, order: 'last'}}>
+                <img src={artistHighlight.images[0]} />
+              </Col>
+            </Row>
+          )}
 
-        {songHighlight.name && (
-          <Row className="user-home-row blue-row">
-            <Col xs={12} md={{span: 5, offset: 1}}>
-              <img variant="top" src={songHighlight.images[0]} />
-            </Col>
-            <Col s={12} md={{span: 5}} className="details-box">
-              <div className="text-box">
-                <h3>You Love:</h3>
-                <h2>{songHighlight.name}</h2>
-              </div>
-              <Button
-                id="matchSongsButton"
-                variant="info"
-                className="matchButton"
-                href="/songs"
-              >
-                See More Top Songs
-              </Button>
-            </Col>
-          </Row>
-        )}
+        {songHighlight &&
+          songHighlight.name && (
+            <Row className="user-home-row blue-row">
+              <Col xs={12} md={{span: 5, offset: 1}}>
+                <img variant="top" src={songHighlight.images[0]} />
+              </Col>
+              <Col s={12} md={{span: 5}} className="details-box">
+                <div className="text-box">
+                  <h3>You Love:</h3>
+                  <h2>{songHighlight.name}</h2>
+                </div>
+                <Button
+                  id="matchSongsButton"
+                  variant="info"
+                  className="matchButton"
+                  href="/songs"
+                >
+                  See More Top Songs
+                </Button>
+              </Col>
+            </Row>
+          )}
       </Container>
     )
   }

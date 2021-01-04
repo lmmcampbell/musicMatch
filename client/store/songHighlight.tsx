@@ -1,9 +1,13 @@
+import { Song, SongsAction } from '../types';
+
+export type SongHighlightState = Song | null
+
 const GET_TOP_SONGS = 'GET_TOP_SONGS'
 
-const initialState = {}
+const initialState: SongHighlightState = null
 
 // REDUCER
-export const songHighlight = (state = initialState, action) => {
+export const songHighlight = (state = initialState, action: SongsAction) => {
   switch (action.type) {
     case GET_TOP_SONGS: {
       const allSongs = action.songs

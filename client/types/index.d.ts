@@ -1,3 +1,5 @@
+import { Action } from 'redux';
+
 export type User = {
   createdAt: string;
   display_name: string;
@@ -53,7 +55,7 @@ export type Matches = {
   numberMatches: number;
 }
 export type SongHighlight =  Song;
-export type Token = any;
+export type Token = string;
 export type TopArtists = Artist[];
 export type TopSongs = Song[];
 
@@ -62,4 +64,21 @@ export type AppState = {
   user: User;
   topSongs: TopSongs;
   topArtists: TopArtists;
+}
+
+export type ActionType = 'GET_TOP_SONGS' | 'GET_TOP_ARTISTS' | 'GOT_HISTORY' | 'GET_MATCH_ARTISTS' |
+'GET_MATCHES' |
+'GET_MATCH_SONGS' |
+'SET_TOKEN' |
+'GET_USER' |
+'REMOVE_USER'
+
+export type ArtistsAction = Action<ActionType> & {artists: Artist[]}
+
+export type MatchesAction = Action<ActionType> & {
+  matches: Matches
+}
+
+export type SongsAction = Action<ActionType> & {
+  songs: Song[]
 }

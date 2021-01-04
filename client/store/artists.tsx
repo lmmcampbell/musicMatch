@@ -1,20 +1,25 @@
 import axios from 'axios'
+import { Dispatch } from 'redux';
+import { AppState, Artist, ArtistsAction } from '../types';
+
+export type ArtistsState = Artist[];
+
 
 // ACTION TYPES
 const GET_TOP_ARTISTS = 'GET_TOP_ARTISTS'
 
 // INITIAL STATE
-const initialState = []
+const initialState: ArtistsState = []
 
 // ACTION CREATORS
-const getTopArtists = artists => ({
+const getTopArtists = (artists: Artist[]) => ({
   type: GET_TOP_ARTISTS,
   artists
 })
 
 // THUNKS
 export const fetchTopArtists = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: Dispatch, getState: () => AppState) => {
     try {
       const state = getState()
       if (!state.topArtists.length) {
@@ -28,7 +33,7 @@ export const fetchTopArtists = () => {
 }
 
 // REDUCER
-export const topArtists = (state = initialState, action) => {
+export const topArtists = (state = initialState, action: ArtistsAction) => {
   switch (action.type) {
     case GET_TOP_ARTISTS:
       return action.artists

@@ -1,10 +1,11 @@
 import React from 'react'
-import { Dispatch } from 'redux';
 import {connect} from 'react-redux'
 import {fetchTopArtists} from '../store/artists'
 import ListGroup from 'react-bootstrap/ListGroup'
 import {Container, Row, Col} from 'react-bootstrap'
 import { TopArtists, AppState } from '../types';
+import { ThunkDispatch } from 'redux-thunk';
+import { SongAction } from '../store/songs';
 
 export type TopArtistsProps = {
   fetchTopArtists: () => undefined;
@@ -66,7 +67,7 @@ const mapStateToProps = (state: AppState) => ({
   topArtists: state.topArtists
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, SongAction>) => ({
   fetchTopArtists: () => dispatch(fetchTopArtists())
 })
 

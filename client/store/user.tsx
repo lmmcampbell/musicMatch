@@ -1,30 +1,38 @@
 import axios from 'axios'
 import history from '../history'
+import { Action, Dispatch } from 'redux';
+import { ActionType, User, Token } from '../types';
+
+export type UserState = User
+
+export type UserAction = Action<ActionType> & {
+  user: User
+}
 
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
-export const REMOVE_USER = 'REMOVE_USER'
+const GET_USER: ActionType & 'GET_USER' = 'GET_USER'
+export const REMOVE_USER: ActionType & 'REMOVE_USER' = 'REMOVE_USER'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {
+const defaultUser: UserState = {
   name: 'Anonymous'
 }
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const getUser = (user: User) => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
  * THUNK CREATORS
  */
 
-export const me = () => async dispatch => {
+export const me = () => async (dispatch: Dispatch) => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
@@ -33,8 +41,8 @@ export const me = () => async dispatch => {
   }
 }
 
-export const fetchSpotifyUser = token => {
-  return async dispatch => {
+export const fetchSpotifyUser = (token: Token) => {
+  return async (dispatch: Dispatch) => {
     try {
       const {data} = await axios.post('/spotify/me', null, {
         headers: {access_token: token}
@@ -46,7 +54,7 @@ export const fetchSpotifyUser = token => {
   }
 }
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch: Dispatch) => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
@@ -60,7 +68,7 @@ export const logout = () => async dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function(state = defaultUser, action: UserAction) {
   switch (action.type) {
     case GET_USER:
       return action.user
