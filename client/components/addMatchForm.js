@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchMatches, addMatch} from '../store/matches'
-import {Form} from 'react-bootstrap'
+import {Form, Row, Container, Col} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
-import {Row, Container, Col} from 'react-bootstrap'
 
 class addMatchForm extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import history from '../history'
 import { Action, Dispatch } from 'redux';
 import { ActionType, User, Token } from '../types';
 
-export type UserState = User
+export type UserState = User | null
 
 export type UserAction = Action<ActionType> & {
   user: User
@@ -18,9 +18,7 @@ export const REMOVE_USER: ActionType & 'REMOVE_USER' = 'REMOVE_USER'
 /**
  * INITIAL STATE
  */
-const defaultUser: UserState = {
-  name: 'Anonymous'
-}
+const defaultUser: UserState = null
 
 /**
  * ACTION CREATORS

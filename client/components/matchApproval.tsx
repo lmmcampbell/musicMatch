@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { fetchApproveMatch, fetchMatches } from '../store/matches';
-import { AppState, Matches } from '../types';
-import { SongAction } from '../store/songs';
+import { AppState, Matches, MatchesAction } from '../types';
+
 
 export type MatchApprovalProps = {
   fetchMatches: () => undefined;
@@ -39,7 +39,9 @@ export class MatchApproval extends React.Component<MatchApprovalProps, MatchAppr
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let matchedMeUnapprovedRows = this.props.matches.matchedMeUnapprovedRows
+    let matchedMeUnapprovedRows
+    this.props.matches && (matchedMeUnapprovedRows = this.props.matches.matchedMeUnapprovedRows)
+    
     return (
       <Container className="match-approval">
         <div id="matches-box">
@@ -104,8 +106,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 
-// todo: change SongAction to actually be ActionType or whatevs.
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, SongAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, MatchesAction>) => ({
   fetchMatches: () => dispatch(fetchMatches()),
   fetchApproveMatch: (id: number) => dispatch(fetchApproveMatch(id))
 })

@@ -2,10 +2,22 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import Button from 'react-bootstrap/Button'
-import {FileX, Trash} from 'react-bootstrap-icons'
+import {Trash} from 'react-bootstrap-icons'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
-export class MatchList extends React.Component {
-  constructor(props) {
+import { AppState, Matches, MatchesAction } from '../types';
+import { ThunkDispatch } from 'redux-thunk';
+
+export type MatchListProps = {
+  fetchMatches: () => undefined;
+  fetchDeleteMatch: (id: number) => undefined;
+  matches: Matches;
+};
+export type MatchListState = {
+  isLoading: boolean;
+}
+
+export class MatchList extends React.Component<MatchListProps, MatchListState> {
+  constructor(props: MatchListProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -13,7 +25,7 @@ export class MatchList extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(id) {
+  handleClick(id: number) {
     this.props.fetchDeleteMatch(id)
     this.props.fetchMatches()
   }
@@ -27,8 +39,9 @@ export class MatchList extends React.Component {
     if (this.state.isLoading) {
       return <div>LOADING</div>
     }
-    let approvedMatches = this.props.matches.approvedMatches
-    let approvedMatchesRows = this.props.matches.approvedMatchesRows
+
+    let approvedMatchesRows
+    this.props.matches && (approvedMatchesRows = this.props.matches.approvedMatchesRows)
 
     return (
       <Container>
@@ -43,7 +56,7 @@ export class MatchList extends React.Component {
                   <Col xs={12} md={{span: 2}}>
                     <img src={match1.images[0]} className="match-image" />
                   </Col>
-                  <Col s={12} md={{span: 3}} className="match-details-box">
+                  <Col xs={12} md={{span: 3}} className="match-details-box">
                     <div>
                       <Button
                         id="matchSongsButton"
@@ -76,7 +89,7 @@ export class MatchList extends React.Component {
                       <Col xs={12} md={{span: 2, offset: 1}}>
                         <img src={match2.images[0]} className="match-image" />
                       </Col>
-                      <Col s={12} md={{span: 3}} className="match-details-box">
+                      <Col xs={12} md={{span: 3}} className="match-details-box">
                         <div>
                           <Button
                             id="matchSongsButton"
@@ -117,14 +130,14 @@ export class MatchList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: AppState) => ({
   matches: state.matches,
   user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, MatchesAction>) => ({
   fetchMatches: () => dispatch(fetchMatches()),
-  fetchDeleteMatch: id => dispatch(fetchDeleteMatch(id))
+  fetchDeleteMatch: (id: number) => dispatch(fetchDeleteMatch(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatchList)

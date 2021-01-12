@@ -41,7 +41,7 @@ class Home extends React.Component {
   }
 
   render() {
-    if (this.state.isLoading || !this.props.user.id) {
+    if (this.state.isLoading || !this.props.user) {
       return (
         <Container className="home-page">
           <Row>

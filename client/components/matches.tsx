@@ -1,17 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchMatches, fetchDeleteMatch} from '../store/matches'
 import AddMatchForm from './addMatchForm'
 import MatchApproval from './matchApproval'
 import MatchList from './matchList'
 import {Container, Tab, Nav} from 'react-bootstrap'
 import { AppState, Matches, User } from '../types';
-import { ThunkDispatch } from 'redux-thunk'
-import { SongAction } from '../store/songs'
+
+
 
 export type MatchesProps = {
-  fetchMatches: () => undefined;
-  fetchDeleteMatches: (id: number) => undefined;
   matches: Matches;
   user: User;
 }
@@ -74,9 +71,5 @@ const mapStateToProps = (state: AppState) => ({
   user: state.user
 })
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, SongAction>) => ({
-  fetchMatches: () => dispatch(fetchMatches()),
-  fetchDeleteMatch: (id: number) => dispatch(fetchDeleteMatch(id))
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatchesComponent)
+export default connect(null)(MatchesComponent)

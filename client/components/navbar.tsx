@@ -5,8 +5,19 @@ import {NavLink} from 'react-router-dom'
 import {logout} from '../store'
 import Navbar from 'react-bootstrap/Navbar'
 import {Nav} from 'react-bootstrap'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState, UserAction } from '../types';
 
-const NavbarComponent = ({handleClick, isLoggedIn, user}) => (
+export type NavbarProps = {
+   handleClick: () => undefined;
+   isLoggedIn: boolean;
+};
+
+export type NavbarState = {
+  isLoading: boolean;
+}
+
+const NavbarComponent = ({handleClick, isLoggedIn}) => (
   <div>
     <Navbar bg="light" expand="lg">
       <Navbar.Brand>
@@ -53,15 +64,13 @@ const NavbarComponent = ({handleClick, isLoggedIn, user}) => (
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state: AppState) => {
   return {
-    isLoggedIn: !!state.user.id,
-    userId: state.user.id,
-    user: state.user
+    isLoggedIn: !!state.user,
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch: ThunkDispatch<AppState, undefined, UserAction>) => {
   return {
     handleClick() {
       dispatch(logout())

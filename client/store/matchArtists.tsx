@@ -1,17 +1,17 @@
 import axios from 'axios'
 import { Action, Dispatch } from 'redux';
-import { ActionType, Artist } from '../types';
+import { ActionType, Artist, MatchArtists } from '../types';
 
-export type MatchArtistsState = Artist[]
+
 export type MatchArtistsAction = Action<ActionType> & {
-  matchArtists: Artist[]
+  matchArtists: MatchArtists
 }
 
 // ACTION TYPES
 const GET_MATCH_ARTISTS: ActionType & 'GET_MATCH_ARTISTS' = 'GET_MATCH_ARTISTS'
 
 // INITIAL STATE
-const initialState: MatchArtistsState = []
+const initialState: MatchArtists = []
 
 // ACTION CREATORS
 const getMatchArtists = (matchArtists: Artist[]) => ({

@@ -4,8 +4,14 @@ import React from 'react'
 import {setToken} from '../store/token'
 import {connect} from 'react-redux'
 import Button from 'react-bootstrap/Button'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState, Token, TokenAction } from '../types';
 
-class SpotifyLogIn extends React.Component {
+export type SpotifyLogInProps = {
+  setToken: (token: Token) => undefined;
+};
+
+class SpotifyLogIn extends React.Component <SpotifyLogInProps, null> {
   render() {
     return (
       <div className="log-in">
@@ -20,16 +26,10 @@ class SpotifyLogIn extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, TokenAction>) => {
   return {
-    token: state.token
+    setToken: (token: Token) => dispatch(setToken(token))
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token => dispatch(setToken(token))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SpotifyLogIn)
+export default connect(null, mapDispatchToProps)(SpotifyLogIn)

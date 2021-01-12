@@ -4,9 +4,22 @@ import {fetchMatchSongs} from '../store/matchSongs'
 import {fetchMatchArtists} from '../store/matchArtists'
 import {Container, Row, Col} from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState, MatchSongs, MatchArtists, MatchesAction } from '../types';
 
-export class MatchDataPage extends React.Component {
-  constructor(props) {
+export type MatchDataPageProps = {
+  fetchMatchSongs: (id: number) => undefined;
+  fetchMatchArtists: (id: number) => undefined;
+  matchSongs: MatchSongs;
+  matchArtists: MatchArtists;
+};
+
+export type MatchDataPageState = {
+  isLoading: boolean;
+}
+
+export class MatchDataPage extends React.Component<MatchDataPageProps, MatchDataPageState> {
+  constructor(props: MatchDataPageProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -14,6 +27,8 @@ export class MatchDataPage extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.params)
+    console.log(this.props.match)
     this.props.fetchMatchSongs(this.props.match.params.id)
     this.props.fetchMatchArtists(this.props.match.params.id)
     this.setState({isLoading: false})
@@ -77,15 +92,14 @@ export class MatchDataPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: AppState) => ({
   matchSongs: state.matchSongs,
   matchArtists: state.matchArtists,
-  user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchMatchSongs: id => dispatch(fetchMatchSongs(id)),
-  fetchMatchArtists: id => dispatch(fetchMatchArtists(id))
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, MatchesAction>) => ({
+  fetchMatchSongs: (id: number) => dispatch(fetchMatchSongs(id)),
+  fetchMatchArtists: (id: number) => dispatch(fetchMatchArtists(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatchDataPage)
