@@ -7,9 +7,24 @@ import {connect} from 'react-redux'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 import {Row, Container, Col} from 'react-bootstrap'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState, Artist, User, Song, ArtistsAction, MatchesAction, SongsAction, UserAction } from '../types';
 
-class UserHome extends React.Component {
-  constructor(props) {
+export type UserHomeProps = {
+  fetchTopArtists: () => undefined;
+  fetchTopSongs: () => undefined;
+  fetchMatches: () => undefined;
+  artistHighlight: Artist;
+  songHighlight: Song;
+  matchHighlight: User;
+}
+
+export type UserHomeState = {
+  isLoading: boolean;
+}
+
+export class UserHome extends React.Component<UserHomeProps, UserHomeState> {
+  constructor(props: UserHomeProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -51,7 +66,7 @@ class UserHome extends React.Component {
                   <img src={matchHighlight.images[0]} />
                 )}
               </Col>
-              <Col s={12} md={{span: 5}} className="details-box">
+              <Col xs={12} md={{span: 5}} className="details-box">
                 <div className="text-box">
                   <h3>You've matched with:</h3>
                   <h2>{matchHighlight.spotifyId}</h2>
@@ -89,7 +104,7 @@ class UserHome extends React.Component {
                   See More Top Artists
                 </Button>
               </Col>
-              <Col s={{span: 12, order: 'first'}} md={{span: 5, order: 'last'}}>
+              <Col xs={{span: 12, order: 'first'}} md={{span: 5, order: 'last'}}>
                 <img src={artistHighlight.images[0]} />
               </Col>
             </Row>
@@ -99,9 +114,9 @@ class UserHome extends React.Component {
           songHighlight.name && (
             <Row className="user-home-row blue-row">
               <Col xs={12} md={{span: 5, offset: 1}}>
-                <img variant="top" src={songHighlight.images[0]} />
+                <img src={songHighlight.images[0]} />
               </Col>
-              <Col s={12} md={{span: 5}} className="details-box">
+              <Col xs={12} md={{span: 5}} className="details-box">
                 <div className="text-box">
                   <h3>You Love:</h3>
                   <h2>{songHighlight.name}</h2>
@@ -122,19 +137,16 @@ class UserHome extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: AppState) => {
   return {
-    user: state.user,
-    topArtists: state.topArtists,
-    topSongs: state.topSongs,
     artistHighlight: state.artistHighlight,
     songHighlight: state.songHighlight,
     matchHighlight: state.matchHighlight,
-    matches: state.matches
+
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, ArtistsAction | SongsAction | MatchesAction | UserAction >) => {
   return {
     fetchTopArtists: () => dispatch(fetchTopArtists()),
     fetchTopSongs: () => dispatch(fetchTopSongs()),

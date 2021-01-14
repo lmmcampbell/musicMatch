@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { Dispatch } from 'redux';
-import { ActionType, Match, Matches, MatchesAction } from '../types';
+import { ThunkDispatch } from 'redux-thunk';
+import { ActionType, AppState, Match, Matches, MatchesAction } from '../types';
 
 export type MatchesState = Matches | null
 
@@ -19,7 +19,7 @@ const getMatches = (matches: MatchesAction) => ({
 
 // THUNKS
 export const fetchMatches = () => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<AppState, undefined, any>) => {
     try {
       const {data} = await axios.get('/api/matches/')
       dispatch(getMatches(data))
@@ -29,8 +29,8 @@ export const fetchMatches = () => {
   }
 }
 
-export const addMatch = (match: Match) => {
-  return async (dispatch: Dispatch) => {
+export const addMatch = (match: string) => {
+  return async (dispatch: ThunkDispatch<AppState, undefined, any>) => {
     try {
       await axios.post('/api/matches/', match)
       dispatch(fetchMatches())
@@ -41,7 +41,7 @@ export const addMatch = (match: Match) => {
 }
 
 export const fetchApproveMatch = (id: number) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<AppState, undefined, any>) => {
     try {
       let update = {approved: true}
       await axios.put(`/api/matches/${id}`, update)
@@ -53,7 +53,7 @@ export const fetchApproveMatch = (id: number) => {
 }
 
 export const fetchDeleteMatch = (id: number) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<AppState, undefined, any>) => {
     try {
       await axios.delete(`/api/matches/${id}`)
       dispatch(fetchMatches())

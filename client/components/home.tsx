@@ -1,12 +1,25 @@
+/* eslint-disable camelcase */
 import React from 'react'
 import {setToken} from '../store/token'
 import {fetchSpotifyUser} from '../store/user'
 import {connect} from 'react-redux'
 import {UserHome} from './index'
 import {Container, Row, Col} from 'react-bootstrap'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState, User, Token } from '../types';
 
-class Home extends React.Component {
-  constructor(props) {
+export type HomeProps = {
+  setToken: (token: Token) => undefined;
+  fetchSpotifyUser: (accessToken: string) => undefined;
+  user: User;
+};
+
+export type HomeState = {
+  isLoading: boolean;
+}
+
+class Home extends React.Component<HomeProps, HomeState> {
+  constructor(props: HomeProps) {
     super(props)
     this.state = {
       isLoading: true
@@ -15,7 +28,7 @@ class Home extends React.Component {
   }
 
   getHashParams() {
-    var hashParams = {}
+    var hashParams: any = {}
     var e,
       r = /([^&;=]+)=?([^&;]*)/g,
       q = window.location.hash.substring(1)
@@ -27,8 +40,8 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    var params = this.getHashParams()
-    var error = params.error
+    let params: any = this.getHashParams()
+    // var error = params.error
     if (params.access_token) {
       let tokenObj = {
         access_token: params.access_token,
@@ -68,17 +81,16 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: AppState) => {
   return {
-    token: state.token,
     user: state.user
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, any>)  => {
   return {
-    setToken: token => dispatch(setToken(token)),
-    fetchSpotifyUser: token => dispatch(fetchSpotifyUser(token))
+    setToken: (token: Token) => dispatch(setToken(token)),
+    fetchSpotifyUser: (accessToken: string) => dispatch(fetchSpotifyUser(accessToken))
   }
 }
 

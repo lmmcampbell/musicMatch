@@ -72,4 +72,4 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 
-export default connect(null)(MatchesComponent)
+export default connect(mapStateToProps)(MatchesComponent)

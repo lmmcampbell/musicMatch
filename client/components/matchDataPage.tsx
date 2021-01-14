@@ -6,13 +6,16 @@ import {Container, Row, Col} from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState, MatchSongs, MatchArtists, MatchesAction } from '../types';
+import { match } from 'react-router-dom'
+
+export type MatchPageRouteParams = match<{ id: string; }>;
 
 export type MatchDataPageProps = {
   fetchMatchSongs: (id: number) => undefined;
   fetchMatchArtists: (id: number) => undefined;
   matchSongs: MatchSongs;
   matchArtists: MatchArtists;
-};
+} & MatchPageRouteParams;
 
 export type MatchDataPageState = {
   isLoading: boolean;
@@ -27,10 +30,8 @@ export class MatchDataPage extends React.Component<MatchDataPageProps, MatchData
   }
 
   componentDidMount() {
-    console.log(this.props.params)
-    console.log(this.props.match)
-    this.props.fetchMatchSongs(this.props.match.params.id)
-    this.props.fetchMatchArtists(this.props.match.params.id)
+    this.props.fetchMatchSongs(parseInt(this.props.params.id, 10))
+    this.props.fetchMatchArtists(parseInt(this.props.params.id, 10))
     this.setState({isLoading: false})
   }
 

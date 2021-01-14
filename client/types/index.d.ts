@@ -72,6 +72,9 @@ export type AppState = {
   topArtists: TopArtists;
   matchArtists: MatchArtists;
   matchSongs: MatchSongs;
+  artistHighlight: Artist;
+  songHighlight: Song;
+  matchHighlight: Match;
 }
 
 export type ActionType = 'GET_TOP_SONGS' | 'GET_TOP_ARTISTS' | 'GOT_HISTORY' | 'GET_MATCH_ARTISTS' |
@@ -82,13 +85,15 @@ export type ActionType = 'GET_TOP_SONGS' | 'GET_TOP_ARTISTS' | 'GOT_HISTORY' | '
 'REMOVE_USER'
 
 export type ArtistsAction = Action<ActionType> & {artists: Artist[]}
+
 export type MatchesAction = Action<ActionType> & {
-  matches: Matches
+  matches: Matches;
 }
 export type SongsAction = Action<ActionType> & {
   songs: Song[]
 }
 export type TokenAction = Action<ActionType> & {token: Token}
+
 export type UserAction = Action<ActionType> & {
   user: User
 }

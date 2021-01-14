@@ -1,4 +1,4 @@
-import REMOVE_USER from './user'
+import {REMOVE_USER} from './user'
 import { ActionType, Token, TokenAction } from '../types';
 
 export type TokenState = Token | null
@@ -20,8 +20,8 @@ const initialState: TokenState = null
 //reducer
 export const tokenObj = (token = initialState, action: TokenAction) => {
   switch (action.type) {
-    // case REMOVE_USER:
-    //   return initialState
+    case REMOVE_USER:
+      return initialState
     case SET_TOKEN:
       return action.token
     default:

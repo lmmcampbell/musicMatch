@@ -3,9 +3,20 @@ import {connect} from 'react-redux'
 import {fetchMatches, addMatch} from '../store/matches'
 import {Form, Row, Container, Col} from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from '../types';
 
-class addMatchForm extends React.Component {
-  constructor(props) {
+export type AddMatchFormProps = {
+  fetchMatches: () => undefined;
+  addMatch: (name: string) => undefined;
+};
+
+export type AddMatchFormState = {
+  matchName: string;
+}
+
+class AddMatchForm extends React.Component<AddMatchFormProps, AddMatchFormState>  {
+  constructor(props: AddMatchFormProps) {
     super(props)
     this.state = {
       matchName: ''
@@ -14,16 +25,14 @@ class addMatchForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(evt) {
+  handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
-      [evt.target.name]: evt.target.value
+      matchName: evt.target.value
     })
   }
-  handleSubmit(evt) {
+  handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault()
-    this.props.addMatch({
-      ...this.state
-    })
+    this.props.addMatch(this.state.matchName)
     this.setState({
       matchName: ''
     })
@@ -35,7 +44,7 @@ class addMatchForm extends React.Component {
       // <div id="add-match-form">
       <Container fluid>
         <Row className="add-match">
-          <Col s={12} md={{span: 5, offset: 3}}>
+          <Col xs={12} md={{span: 5, offset: 3}}>
             <Form onSubmit={this.handleSubmit} className="matchForm">
               <Form.Group controlId="formMatchName">
                 <Form.Control
@@ -58,11 +67,11 @@ class addMatchForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, any>) => {
   return {
     fetchMatches: () => dispatch(fetchMatches()),
-    addMatch: product => dispatch(addMatch(product))
+    addMatch: (name: string) => dispatch(addMatch(name))
   }
 }
 
-export default connect(null, mapDispatchToProps)(addMatchForm)
+export default connect(null, mapDispatchToProps)(AddMatchForm)

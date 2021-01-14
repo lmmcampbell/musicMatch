@@ -1,6 +1,6 @@
-import { Match, MatchesAction } from '../types';
+import { User, MatchesAction } from '../types';
 
-export type MatchHighlightState = Match | null
+export type MatchHighlightState = User | null
 
 // ACTION TYPES
 const GET_MATCHES = 'GET_MATCHES'

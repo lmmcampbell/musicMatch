@@ -17,7 +17,7 @@ export type NavbarState = {
   isLoading: boolean;
 }
 
-const NavbarComponent = ({handleClick, isLoggedIn}) => (
+const NavbarComponent: React.FC<NavbarProps> = ({ handleClick, isLoggedIn }) => (
   <div>
     <Navbar bg="light" expand="lg">
       <Navbar.Brand>

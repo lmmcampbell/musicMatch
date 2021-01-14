@@ -39,7 +39,7 @@ export const me = () => async (dispatch: Dispatch) => {
   }
 }
 
-export const fetchSpotifyUser = (token: Token) => {
+export const fetchSpotifyUser = (token: string) => {
   return async (dispatch: Dispatch) => {
     try {
       const {data} = await axios.post('/spotify/me', null, {
