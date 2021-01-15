@@ -8,14 +8,18 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState, MatchSongs, MatchArtists, MatchesAction } from '../types';
 import { match } from 'react-router-dom'
 
-export type MatchPageRouteParams = match<{ id: string; }>;
+export type DetailParams = {
+  id: string;
+}
 
 export type MatchDataPageProps = {
-  fetchMatchSongs: (id: number) => undefined;
-  fetchMatchArtists: (id: number) => undefined;
+  fetchMatchSongs: (id: string) => undefined;
+  fetchMatchArtists: (id: string) => undefined;
   matchSongs: MatchSongs;
   matchArtists: MatchArtists;
-} & MatchPageRouteParams;
+  match?: match<DetailParams>;
+}
+// & MatchPageRouteParams;
 
 export type MatchDataPageState = {
   isLoading: boolean;
@@ -30,14 +34,14 @@ export class MatchDataPage extends React.Component<MatchDataPageProps, MatchData
   }
 
   componentDidMount() {
-    this.props.fetchMatchSongs(parseInt(this.props.params.id, 10))
-    this.props.fetchMatchArtists(parseInt(this.props.params.id, 10))
+    this.props.fetchMatchSongs(this.props.match.params.id)
+    this.props.fetchMatchArtists(this.props.match.params.id)
     this.setState({isLoading: false})
   }
 
   render() {
     if (this.state.isLoading) {
-      return <div>LOANDING</div>
+      return <div>LOADING</div>
     }
     const matchSongs = this.props.matchSongs
     const matchArtists = this.props.matchArtists
@@ -99,8 +103,8 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, MatchesAction>) => ({
-  fetchMatchSongs: (id: number) => dispatch(fetchMatchSongs(id)),
-  fetchMatchArtists: (id: number) => dispatch(fetchMatchArtists(id))
+  fetchMatchSongs: (id: string) => dispatch(fetchMatchSongs(id)),
+  fetchMatchArtists: (id: string) => dispatch(fetchMatchArtists(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatchDataPage)

@@ -20,7 +20,7 @@ const getMatchArtists = (matchArtists: Artist[]) => ({
 })
 
 // THUNKS
-export const fetchMatchArtists = (id: number) => {
+export const fetchMatchArtists = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       const {data} = await axios.get(`/api/matches/${id}/artists`)

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import history from '../history'
 import { Action, Dispatch } from 'redux';
-import { ActionType, User, Token } from '../types';
+import { ActionType, User } from '../types';
 
 export type UserState = User | null
 

@@ -10,11 +10,17 @@ import {
   MatchDataPage
 } from './components'
 import {me} from './store'
+import { AppState, UserAction } from './types'
+import { ThunkDispatch } from 'redux-thunk';
 
-/**
- * COMPONENT
- */
-class Routes extends Component {
+
+export type RoutesProps = {
+  isLoggedIn: boolean;
+  loadInitialData: () => undefined;
+}
+
+
+class Routes extends React.Component<RoutesProps> {
   componentDidMount() {
     this.props.loadInitialData()
   }
@@ -52,7 +58,7 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state: AppState) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -60,7 +66,7 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch: ThunkDispatch<AppState, undefined, UserAction>) => {
   return {
     loadInitialData() {
       dispatch(me())

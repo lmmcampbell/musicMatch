@@ -20,7 +20,7 @@ const getMatchSongs = (matchSongs: MatchSongsState) => ({
 })
 
 // THUNKS
-export const fetchMatchSongs = (id: number) => {
+export const fetchMatchSongs = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       const {data} = await axios.get(`/api/matches/${id}/songs`)
