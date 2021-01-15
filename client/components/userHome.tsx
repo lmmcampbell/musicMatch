@@ -11,8 +11,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState, Artist, User, Song, ArtistsAction, MatchesAction, SongsAction, UserAction } from '../types';
 
 export type UserHomeProps = {
-  fetchTopArtists: () => undefined;
   fetchTopSongs: () => undefined;
+  fetchTopArtists: () => undefined;
   fetchMatches: () => undefined;
   artistHighlight: Artist;
   songHighlight: Song;
@@ -142,14 +142,13 @@ const mapStateToProps = (state: AppState) => {
     artistHighlight: state.artistHighlight,
     songHighlight: state.songHighlight,
     matchHighlight: state.matchHighlight,
-
   }
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppState, undefined, ArtistsAction | SongsAction | MatchesAction | UserAction >) => {
   return {
-    fetchTopArtists: () => dispatch(fetchTopArtists()),
     fetchTopSongs: () => dispatch(fetchTopSongs()),
+    fetchTopArtists: () => dispatch(fetchTopArtists()),
     fetchMatches: () => dispatch(fetchMatches())
   }
 }

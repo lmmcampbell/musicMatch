@@ -7,7 +7,6 @@ import {Container, Tab, Nav} from 'react-bootstrap'
 import { AppState, Matches, User } from '../types';
 
 
-
 export type MatchesProps = {
   matches: Matches;
   user: User;

@@ -74,7 +74,7 @@ export type AppState = {
   matchSongs: MatchSongs;
   artistHighlight: Artist;
   songHighlight: Song;
-  matchHighlight: Match;
+  matchHighlight: User;
 }
 
 export type ActionType = 'GET_TOP_SONGS' | 'GET_TOP_ARTISTS' | 'GOT_HISTORY' | 'GET_MATCH_ARTISTS' |
