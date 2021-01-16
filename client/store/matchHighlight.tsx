@@ -14,7 +14,7 @@ export const matchHighlight = (state = initialState, action: MatchesAction) => {
     case GET_MATCHES: {
       const allMatches = action.matches.approvedMatches
       const num = Math.floor(Math.random() * Math.floor(allMatches.length))
-      return allMatches[num]
+      return allMatches[num] || null
     }
     default:
       return state

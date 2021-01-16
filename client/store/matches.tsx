@@ -32,7 +32,7 @@ export const fetchMatches = () => {
 export const addMatch = (match: string) => {
   return async (dispatch: ThunkDispatch<AppState, undefined, any>) => {
     try {
-      await axios.post('/api/matches/', match)
+      await axios.post('/api/matches/', {matchName: match})
       dispatch(fetchMatches())
     } catch (error) {
       console.error(error)

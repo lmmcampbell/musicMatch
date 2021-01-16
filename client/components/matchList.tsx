@@ -46,8 +46,8 @@ export class MatchList extends React.Component<MatchListProps, MatchListState> {
     return (
       <Container>
         <div id="matches-box">
-          {approvedMatchesRows &&
-            approvedMatchesRows.length > 0 &&
+          {(approvedMatchesRows &&
+            approvedMatchesRows.length > 0) ?
             approvedMatchesRows.map(match => {
               const match1 = match[0]
               const match2 = match[1]
@@ -123,7 +123,9 @@ export class MatchList extends React.Component<MatchListProps, MatchListState> {
                   )}
                 </Row>
               )
-            })}
+            })
+            : (<div> No matches yet!</div>)
+          }
         </div>
       </Container>
     )

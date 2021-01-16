@@ -32,10 +32,12 @@ class AddMatchForm extends React.Component<AddMatchFormProps, AddMatchFormState>
   }
   handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault()
+ 
     this.props.addMatch(this.state.matchName)
     this.setState({
       matchName: ''
     })
+
     this.props.fetchMatches()
   }
 
