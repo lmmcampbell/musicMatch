@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, RouteComponentProps} from 'react-router-dom'
 import {
   SpotifyLogIn,
   Home,
@@ -20,7 +20,7 @@ export type RoutesProps = {
 }
 
 
-class Routes extends React.Component<RoutesProps> {
+class Routes extends React.Component<RoutesProps & RouteComponentProps> {
   componentDidMount() {
     this.props.loadInitialData()
   }
